@@ -1,0 +1,19 @@
+{
+  "message": "hello i18n !!",
+  "Search": "Tìm kiếm",
+  "SearchDescription": "Bắt đầu tìm kiếm và ấn Enter",
+  "LogIn": "Đăng nhập",
+  "LogOut": "Đăng xuất",
+  "Shop": "Cửa hàng",
+  "AboutUs": "Giới thiệu",
+  "Home": "Trang chủ",
+  "ContentSearch": "Tên sản phẩm, chủng loại,...",
+  "Pet": "Thú cưng",
+  "Food": "Thức ăn",
+  "Cart": "Giỏ hàng",
+  "AccountSetting": "Tài khoản",
+  "AdminSetting": "Thiết lập",
+  "Slogan": "Đồng hành, hỗ trợ, việc làm nhỏ, ý nghĩa lớn",
+  "ViewNow": "Xem ngay",
+  "PetWaitingForAdopt": "Những bạn thú cưng chờ nhận nuôi"
+}
