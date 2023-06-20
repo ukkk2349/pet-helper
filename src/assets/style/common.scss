@@ -1,0 +1,22 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.border {
+  border: 1px solid var(--border-color);
+}
+
+.no-border {
+  border: none !important;
+}
+
+.bg-transparent {
+  background-color: transparent !important;
+}
+
+a {
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
