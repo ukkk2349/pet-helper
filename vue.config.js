@@ -29,5 +29,17 @@ module.exports = {
             }
         },
         port: 5002
+    },
+
+    pluginOptions: {
+      i18n: {
+        locale: 'vi',
+        fallbackLocale: 'en',
+        localeDir: 'locales',
+        enableLegacy: true,
+        runtimeOnly: false,
+        compositionOnly: true,
+        fullInstall: true
+      }
     }
 }
