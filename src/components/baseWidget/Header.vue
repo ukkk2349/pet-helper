@@ -42,52 +42,23 @@
             id="search"
             @click="openSearch"
           />
-          <!-- <div class="search-icon cursor-pointer" id="search" @click="openSearch">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div> -->
           
           <template v-if="auth && isAdmin">
             <b-icon
-              icon="fa-light fa-gear"
+              icon="fa-solid fa-gear"
               id="adminSettingIcon"
+              @click="onClickSettingAdmin"
             />
           </template>
           <template v-else>
             <b-icon
               icon="fa-regular fa-user"
               id="userIcon"
+              @click="onClickUserIcon"
             />
           </template>
-          <!-- <router-link 
-            v-if="!auth"
-            to="/login" 
-            class="mx-0"
-            id="loginBtn"
-          >
-            <a href="">
-              <i class="fa-solid fa-user"></i>
-            </a>
-          </router-link> -->
-          
-          <!-- <template v-else>
-            <router-link
-              :to="'/my-account/' + userId"
-              class="mx-0"
-              v-if="!isAdmin"
-            >
-              <a href="" title="Account Settings">
-                <i class="fa-regular fa-user"></i>
-              </a>
-            </router-link>
-            <router-link to="/admin" class="mx-0" v-else
-              ><a title="Admin Options"></a>
-            </router-link>
-          </template> -->
           
           <div class="cart" id="cartIcon">
-            <!-- <router-link to="/cart" title="Cart" class="cart-icon">
-              <i class="fa-solid fa-cart-shopping"></i>
-            </router-link> -->
             <b-icon
               class="cart-icon"
               icon="fa-solid fa-cart-shopping"
@@ -96,20 +67,16 @@
               <small>{{ productQuantity }}</small>
             </div>
           </div>
-          
-          <b-tooltip
-            :text="$t('Cart')"
-            target="#cartIcon"
-          />
 
-          <button 
+          <b-button 
             v-if="auth"
-            :title="$t('LogOut')"
+            :text="$t('LogOut')"
             class="logout-button" 
+            type="white"
             @click="onLogout" 
           >
             {{ $t("LogOut") }}
-          </button>
+          </b-button>
         </div>
         <b-tooltip
           :text="$t('Search')"
@@ -122,6 +89,11 @@
         <b-tooltip
           :text="auth ? $t('AccountSetting') : $t('LogIn')"
           target="#userIcon"
+        />
+
+        <b-tooltip
+          :text="$t('Cart')"
+          target="#cartIcon"
         />
       </div>
     </nav>
@@ -160,22 +132,27 @@ export default {
       openSearchForm: false,
       search_request: "",
       message: null,
-      isAdmin: 0,
+      isAdmin: false,
       productQuantity: 0,
-      auth: false,
       shopItems: [
         {
           Name: this.$t("Pet"),
           Link: '/pet'
         },
         {
-          Name: this.$t("Food"),
-          Link: '/food'
+          Name: this.$t("Product"),
+          Link: '/product'
         }
       ]
     };
   },
   created() {
+    this.isAdmin = this.$store.getters.isAdmin ? true : false;
+  },
+  computed: {
+    auth() {
+      return this.$store.getters.isAuthenticated;
+    }
   },
   methods: {
     /**
@@ -196,6 +173,25 @@ export default {
      */
     onSelectShopItem(item) {
       this.$router.push(item.Link)
+    },
+    onClickUserIcon() {
+      if (this.auth) {
+        this.$router.push('/profile');
+      } else {
+        this.$router.push('/sign-in');
+      }
+    },
+    /**
+     * Ấn đến thiết lập trang web của quản lý / admin
+     */
+    onClickSettingAdmin() {
+      this.$router.push('/setting');
+    },
+    /**
+     * Đăng xuất
+     */
+    onLogout() {
+      this.$store.dispatch("logout");
     }
   },
 };

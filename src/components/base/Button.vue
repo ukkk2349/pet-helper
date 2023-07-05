@@ -3,9 +3,8 @@
     class="btn-custom" 
     :class="[type, {'no-border bg-transparent': !showBorder }]"
     :disabled="disabled" 
-    @click="onClick"
   >
-    <div class="btn-content d-flex align-items-center justify-content-between">
+    <div class="btn-content d-flex align-items-center justify-content-around">
       <b-icon v-if="showPreIcon" :class="preIcon"/>
       {{ text }}
       <b-icon v-if="showPostIcon" :class="postIcon"/>
@@ -60,9 +59,6 @@ export default {
     }
   },
   methods: {
-    onClick() {
-      this.$emit('click');
-    }
   }
 }
 </script>

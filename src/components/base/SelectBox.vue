@@ -1,5 +1,6 @@
 <template>
-  <div class="select-box-wrapper">
+  <div class="select-box-wrapper" :class="[{'dis-flex justify-content-between' : !verticalLabel}, {'has-label': isShowLabel}]">
+    <div v-if="isShowLabel" :for="id" class="text-box-label mb-1 font-weight-bold">{{ label }} <span v-if="require" class="require"></span></div>
     <DxSelectBox
       :value="value"
       :class="[{'show-border': showBorder}, { 'no-border': !showBorder }  ]"
@@ -12,6 +13,7 @@
       item-template="itemTemplate"
       :disabled="disabled"
       drop-down-button-template="dropdown-icon"
+      :no-data-text="$t('NoDataText')"
       @selectionChanged="onSelectionChanged"
     >
       <template #itemTemplate="{ data }">
@@ -20,8 +22,11 @@
         </div>
       </template>
       <template #dropdown-icon="{}">
-        <b-icon icon="fa-solid fa-chevron-down"></b-icon>
+        <b-icon icon="fa-solid fa-chevron-down" size="14px"></b-icon>
       </template>
+      <DxValidator v-if="require">
+        <DxRequiredRule :message="$t('RequireValidateMessage', {name: name && name.length > 0 ? name : label})"/>
+      </DxValidator>
     </DxSelectBox>
   </div>
 </template>
@@ -35,9 +40,20 @@ export default {
     DxSelectBox
   },
   props: {
+    modelValue: {
+      default: null
+    },
     showClearButton: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: String,
+      default: "selectBox"
+    },
+    name: {
+      type: String,
+      default: ""
     },
     placeholder: {
       type: String,
@@ -69,6 +85,22 @@ export default {
     },
     value: {
       default: null
+    },
+    isShowLabel: {
+      type: Boolean,
+      default: false,
+    },
+    label: {
+      type: String,
+      default: ""
+    },
+    verticalLabel: {
+      type: Boolean,
+      default: true
+    },
+    require: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -83,6 +115,7 @@ export default {
      */
     onSelectionChanged(e) {
       this.$emit('onSelectionChanged', e.selectedItem);
+      this.$emit('update:modelValue', e[this.valueExpr]);
     }
   }
 }
@@ -91,6 +124,14 @@ export default {
 <style lang="scss">
 .select-box-wrapper {
   height: 60px;
+
+  &.has-label {
+    height: calc(var(--textbox-height) + 25px);
+
+    .text-box-label {
+      text-align: start;
+    }
+  }
 
   .show-border {
     border: 1px solid var(--border-color);

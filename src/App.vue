@@ -1,6 +1,8 @@
 <template>
   <app-header style="position: fixed; width: 100%; z-index: 999; transition: .4s; margin: 0" :class="['menu', {'white-menu': scrolled}]" :status="componentKey" :key="componentKey"/>
-  <router-view class="main"/>
+  <div class="main">
+    <router-view/>
+  </div>
   <app-footer/>
 </template>
 
@@ -25,6 +27,16 @@ export default {
   created () {
     window.addEventListener('scroll', this.handleScroll);
   },
+  computed: {
+    getFullPath () {
+      return this.$route.path;
+    }
+  },
+  watch: {
+    getFullPath () {
+      this.changeRoute()
+    }
+  },
   unmounted () {
     window.removeEventListener('scroll', this.handleScroll);
   },
@@ -34,7 +46,10 @@ export default {
      */
     handleScroll () {
       this.scrolled = window.scrollY > 80;
-    }
+    },
+    changeRoute() {
+      this.componentKey ++;
+    },
   }
 }
 </script>
@@ -53,9 +68,9 @@ export default {
 }
 
 .main {
-  height: calc(100% - 120px);
+  min-height: calc(100% - 130px);
   min-height: 650px;
-  padding-top: 60px;
+  padding-top: 70px;
 }
 
 .white-menu {
