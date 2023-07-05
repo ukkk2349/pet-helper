@@ -1,3 +1,7 @@
+html {
+  height: 100%;
+}
+
 .cursor-pointer {
   cursor: pointer;
 }
@@ -19,4 +23,18 @@ a {
   &:hover {
     text-decoration: none;
   }
+}
+
+.require::after {
+  content: '*';
+  color: #D21312;
+}
+
+.setting-title {
+  font-size: 40px !important;
+  font-weight: 500 !important;
+}
+
+.bold {
+  font-weight: 700;
 }

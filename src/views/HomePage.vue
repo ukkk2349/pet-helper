@@ -33,7 +33,13 @@
           </div>
         </div>
         <span class="view-all text-end">
-          <router-link to="/pets">View all >></router-link>
+          <b-button
+            type="link"
+            :text="$t('ViewAll')"
+            :showBorder="false"
+            @click="onClickViewAll('pet')"
+          >
+          </b-button>
         </span>
       </div>
     </div>
@@ -58,14 +64,17 @@
           </div>
         </div>
         <span class="view-all text-end">
-          <router-link to="/food">View all >></router-link>
+          <b-button
+            type="link"
+            :text="$t('ViewAll')"
+            :showBorder="false"
+            @click="onClickViewAll('food')"
+          >
+          </b-button>
         </span>
       </div>
     </div>
 
-    <div class="find-pet">
-      <h4 class="title">If you are looking for a pet, let us help you at <a href="/request">here</a></h4>
-    </div>
   </div>
 </template>
 
