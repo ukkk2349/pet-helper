@@ -15,7 +15,7 @@
       drop-down-button-template="dropdown-icon"
       :no-data-text="$t('NoDataText')"
       @selectionChanged="onSelectionChanged"
-    >
+      >
       <template #itemTemplate="{ data }">
         <div class="select-box-item">
           <div class="title">{{ data[displayExpr] }}</div>

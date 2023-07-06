@@ -14,71 +14,72 @@
     <!-- end big-banner  -->
 
     <div class="pets container-fluid mt-4" id="mainContent">
-      <h1>{{ $t("PetWaitingForAdopt") }}</h1>
+      <h1 class="setting-title">{{ $t("PetWaitingForAdopt") }}</h1>
       <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-item" v-for="(pet, index) in pets" :key="pet.id">
-          <div class="item" v-if="index<3">
-            <div class="box-img">
-              <router-link class="pet-image" :to="'/pet/info/' + pet.id">
-                <img class="img-fluid lazy-loaded" :src="require(`@/assets/${pet.images}`)" :alt="pet.name">
-              </router-link>
-            </div>
-            <div class="box-info">
-              <router-link class="pet-name" :to="'/pet/info/' + pet.id">{{ pet.name }}</router-link>
-              <br>
-              <s style="color: #88888F">${{ pet.price }}</s>
-              <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ pet.sale }}</p>
-              <span v-if="!pet.stock" style="color: red; font-weight: bold">Out of Stock</span>
+        <template v-for="(pet, index) in pets" :key="pet.PetID">
+          <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-item" v-if="index<3">
+            <div class="item">
+              <div class="box-img">
+                <div class="pet-image" @click="onViewPetDetail(pet.PetID)">
+                  <img class="img-fluid lazy-loaded" :src="require(`@/assets/images/${pet.PetAvatar}`)" :alt="pet.PetName">
+                </div>
+              </div>
+              <div class="box-info">
+                <div class="pet-name" @click="onViewPetDetail(pet.PetID)">{{ pet.name }}</div>
+              </div>
             </div>
           </div>
-        </div>
-        <span class="view-all text-end">
-          <b-button
-            type="link"
-            :text="$t('ViewAll')"
-            :showBorder="false"
-            @click="onClickViewAll('pet')"
-          >
-          </b-button>
-        </span>
+        </template>
       </div>
+      <span class="view-all text-end">
+        <b-button
+          type="link"
+          :text="$t('ViewAll')"
+          :showBorder="false"
+          @click="onClickViewAll(1)"
+        >
+        </b-button>
+      </span>
     </div>
 
-    <div class="food container-fluid" style="padding-top: 80px">
-      <h1>Our Food</h1>
+    <div class="product container-fluid" style="padding-top: 80px">
+      <h1 class="setting-title mb-4">{{ $t('Product') }}</h1>
       <div class="row">
-        <div class="col-lg-3 col-md-4 col-sm-6 col-12 col-item gutter" style="padding: 0" v-for="(food, index) in foods" :key="food.id">
-          <div class="item" v-if="index<4">
-            <div class="box-img">
-              <router-link :to="'/food/info/' + food.id">
-                <img class="img-responsive w-100 lazy-loaded" :src="require(`@/assets/${food.images}`)" :alt="food.name">
-              </router-link>
-            </div>
-            <div class="box-info">
-              <router-link class="food-name" :to="'/food/info/' + food.id" style="padding: 20px 0 4px 0">{{ food.name }}</router-link>
-              <br>
-              <s style="color: #88888F">${{ food.price }}</s>
-              <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ food.sale }}</p>
-              <span v-if="!food.stock" style="color: red; font-weight: bold">Out of Stock</span>
+        <template v-for="(product, index) in products" :key="product.ProductID">
+          <div v-if="index<4" class="col-lg-3 col-md-4 col-sm-6 col-12 col-item gutter" style="padding: 0">
+            <div class="item">
+              <div class="box-img">
+                <div @click="onViewProductDetail(product.ProductID)">
+                  <img class="img-responsive w-100 lazy-loaded" :src="require(`@/assets/images/product/${product.ProductAvatar}`)" :alt="product.ProductName">
+                </div>
+              </div>
+              <div class="box-info">
+                <div class="product-name" @click="onViewProductDetail(product.ProductID)" style="padding: 20px 0 4px 0">{{ product.ProductName }}</div>
+                <br>
+                <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ product.Price }}</p>
+                <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <span class="view-all text-end">
-          <b-button
-            type="link"
-            :text="$t('ViewAll')"
-            :showBorder="false"
-            @click="onClickViewAll('food')"
-          >
-          </b-button>
-        </span>
+        </template>
       </div>
+      <span class="view-all text-end">
+        <b-button
+          type="link"
+          :text="$t('ViewAll')"
+          :showBorder="false"
+          @click="onClickViewAll(2)"
+        >
+        </b-button>
+      </span>
     </div>
 
   </div>
 </template>
 
 <script>
+import PetAPI from '@/api/PetAPI';
+import ProductAPI from '@/api/ProductAPI';
 
 export default {
   name: "HomePage",
@@ -88,12 +89,68 @@ export default {
   data() {
     return {
       pets: [],
-      foods: []
+      products: []
     }
   },
+  created() {
+    this.getPetData();
+    this.getProductData();
+  },
   methods: {
+    /**
+     * Lấy list thú cưng
+     */
+    getPetData() {
+      var me = this;
+      PetAPI.getAll().then(res => {
+        if (res.data.success) {
+          me.pets = res.data.data;
+        }
+      }, err => {
+        console.log(err)
+      });
+    },
+    /**
+     * Lấy list sản phẩm
+     */
+    getProductData() {
+      var me = this;
+      ProductAPI.getAll().then(res => {
+        if (res.data.success) {
+          me.products = res.data.data;
+        }
+      }, err => {
+        console.log(err)
+      });
+    },
     onSelectionChanged(e) {
       console.log(e);
+    },
+    /**
+     * Xem chi tiết thú cưng
+     * @param {int} petID id thú cưng
+     */
+    onViewPetDetail(petID) {
+      this.$router.push({ path: '/pet/detail', query: {id: petID}});
+    },
+    /**
+     * Xem chi tiết sản phẩm
+     * @param {int} productID id sản phẩm
+     */
+     onViewProductDetail(productID) {
+      this.$router.push({ path: '/product/detail', query: {id: productID}});
+    },
+    onClickViewAll(index) {
+      switch (index) {
+        case 1:
+          this.$router.push('pet');
+          break;
+        case 2:
+          this.$router.push('product');
+          break;
+        default:
+          break;
+      }
     }
   }
 }
@@ -161,7 +218,7 @@ export default {
   .item {
     padding: 0px 15px
   }
-  .food .box-img {
+  .product .box-img {
     overflow: hidden;
     height: 300px;
   }
@@ -191,14 +248,14 @@ export default {
     transform: scale(1.04);
     transition: all .8s linear; 
   }
-  .box-info .food-name {
+  .box-info .product-name {
     text-decoration: none;
     font-size: 16px;
     font-weight: 500;
     color: #000;
     line-height: 28px;
   }
-  .box-info .food-name:hover {
+  .box-info .product-name:hover {
     color: #ff7a00;
   }
   .box-info .pet-name {

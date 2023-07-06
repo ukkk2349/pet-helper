@@ -61,14 +61,18 @@
               <hr />
             </div>
             <div class="product-summary text-left mb-3">
-              <span class="weight"> {{ $t('ManufacturingDate') }}: {{ formatDateX(product.ManufacturingDate) }} </span>
+              <span class="weight"> <b>{{ $t('ManufacturingDate') }}:</b> {{ formatDateX(product.ManufacturingDate) }} </span>
               <br />
               <span class="calories mb-1">
-                {{ $t('ExpiredDate') }}: {{ formatDateX(product.ExpiredDate) }}
+                <b>{{ $t('ExpiredDate') }}:</b> {{ formatDateX(product.ExpiredDate) }}
               </span>
               <br>
               <span class="stock mb-1">
-                {{ $t('State') }}: {{ product.StateID == 1 ? $t('Stocking') : $t('OutOfStock') }}
+                <b>{{ $t('Origin') }}:</b> {{ product.Origin }}
+              </span>
+              <br>
+              <span class="stock mb-1">
+                <b>{{ $t('State') }}:</b> {{ product.StateID == 1 ? $t('Stocking') : $t('OutOfStock') }}
               </span>
               <p class="mb-0 pb-0" style="white-space: pre-line">
                 {{ product.Description }}
@@ -79,10 +83,12 @@
                 id="message"
                 style="color: red; font-weight: bold"
               ></small>
-              <span v-if="!product.State == 2" style="color: red; font-weight: bold">Out of Stock</span>
+              <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
               <br />
               <b-button
+                v-if="!isManager"
                 :text="$t('AddToCart')"
+                @click="addToCart"
               />
             </form>
           </div>
@@ -96,7 +102,10 @@
 <script>
 import Product from '@/model/Product';
 import ProductAPI from '@/api/ProductAPI';
+import CartAPI from '@/api/CartAPI';
+import Cart from '@/model/Cart';
 import { formatDate } from '@/common/commonFunction';
+import { success } from '@/common/commonFunction';
 
 export default {
   name: "ProductDetail",
@@ -104,14 +113,19 @@ export default {
     return {
       product: new Product(),
       productID: null,
-      selectedImg: 0
+      selectedImg: 0,
+      isManager: false
     }
   },
   created() {
+    this.isManager = this.$store.getters.isAdmin;
     this.productID = this.$route.query.id;
     this.getData();
   },
   methods: {
+    /**
+     * Lấy dữ liệu chi tiết của sản phẩm
+     */
     getData() {
       ProductAPI.getByID(this.productID).then(res => {
         if (res.data.success) {
@@ -122,6 +136,20 @@ export default {
     },
     formatDateX(s) {
       return formatDate(s);
+    },
+    addToCart() {
+      var cart = new Cart();
+      cart.Price = this.product.Price;
+      cart.ProductID = this.productID;
+      cart.ProductName = this.product.ProductName;
+      cart.ProductAvatar = this.product.ProductAvatar;
+      CartAPI.save(cart).then(res => {
+        if (res && res.data.success) {
+          success(this.$t('AddToCartSuccessfully'));
+        }
+      }, err => {
+        console.log(err);
+      })
     }
   }
 }

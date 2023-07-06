@@ -1,6 +1,6 @@
 class User {
   constructor() {
-    this.UserID = null;
+    this.UserID = 0;
     this.FirstName = null;
     this.LastName = null;
     this.FullName = null;
@@ -18,9 +18,9 @@ class User {
     this.CurrentWardName = null;
     this.PhoneNumber = null;
     this.UserKey = null;
-    this.JoinDate = null;
-    this.IsManager = null;
-    this.IsAdmin = null;
+    this.JoinDate = new Date();
+    this.IsManager = false;
+    this.IsAdmin = false;
   }
 }
 

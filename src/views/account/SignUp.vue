@@ -150,6 +150,7 @@
             <div class="row">
               <div class="col">
                 <b-select-box
+                  v-model="user.CurrentDistrictID"
                   :items="dataCbbDistrict"
                   displayExpr="Name"
                   valueExpr="Id"
@@ -166,6 +167,7 @@
             <div class="row">
               <div class="col">
                 <b-select-box
+                  v-model="user.CurrentWardID"
                   :items="dataCbbWard"
                   displayExpr="Name"
                   valueExpr="Id"
@@ -270,9 +272,8 @@ export default {
      */
     onSelectWard(e) {
       if (e) {
-        this.user.CurrentDistrictID = e.ID;
-        this.user.CurrentDistrictName = e.Name;
-        this.dataCbbWard = e.Wards;
+        this.user.CurrentWardID = e.ID;
+        this.user.CurrentWardName = e.Name;
       }
     },
     /**

@@ -221,6 +221,9 @@ export default {
   padding: 0px 15px;
   width: 200px;
 }
+.col-item {
+  float: left;
+}
 .box-img {
   overflow: hidden;
   height: 200px;
