@@ -63,6 +63,10 @@ export default {
     height: {
       type: [Number, String],
       default: 72
+    },
+    maxLength: {
+      type: Number,
+      default: null
     }
   },
   data() {

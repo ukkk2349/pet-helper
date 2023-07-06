@@ -109,7 +109,6 @@ export default {
   background-color: #faf5ef;
   padding: 5%;
   border-radius: 5%;
-  font-family: "Quicksand", sans-serif;
 }
 
 button.submit-button {

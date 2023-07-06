@@ -2,7 +2,7 @@
   <div class="select-box-wrapper" :class="[{'dis-flex justify-content-between' : !verticalLabel}, {'has-label': isShowLabel}]">
     <div v-if="isShowLabel" :for="id" class="text-box-label mb-1 font-weight-bold">{{ label }} <span v-if="require" class="require"></span></div>
     <DxSelectBox
-      :value="value"
+      :value="modelValue"
       :class="[{'show-border': showBorder}, { 'no-border': !showBorder }  ]"
       :items="items"
       :input-attr="{ 'aria-label': 'Product With Placeholder' }"

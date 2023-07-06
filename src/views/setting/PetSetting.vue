@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
       <div class="row justify-content-center">
-        <h1 class="setting-title">{{ $t('Pet') }}</h1>
+        <h1 class="setting-title">{{ $t('SettingPet') }}</h1>
       </div>
       <hr />
 
@@ -58,22 +58,22 @@
                   <li>
                     <div class="pet-option update cursor-pointer" @click="onUpdatePet(pet.PetID)">
                       <i class="fas fa-edit mr-1"></i>
-                      <span>Edit</span>
+                      <span>{{ $t('Edit') }}</span>
                     </div>
                   </li>
                   <li>
                     <div class="pet-option delete cursor-pointer" @click="onDeletePet(pet.PetID)">
                       <i class="fas fa-trash-alt mr-1"></i>
-                      <span>Delete</span>
+                      <span>{{ $t('Delete') }}</span>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
             <div class="box-info">
-              <router-link class="pet-name" :to="'/pet/info/' + pet.PetID">{{
+              <div class="pet-name" @click="onViewDetail(pet.PetID)">{{
                 pet.PetName
-              }}</router-link>
+              }}</div>
               <br />
             </div>
           </div>
@@ -181,7 +181,7 @@ export default {
   padding: 37px;
 }
 .box-img {
-  clip-path: circle(40%);
+  clip-path: circle(31%);
 
   margin-bottom: 15px;
   overflow: hidden;

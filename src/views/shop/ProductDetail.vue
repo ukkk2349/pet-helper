@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="row my-4">
+    <div class="row">
       <div class="col-sm-6 text-start">
         <div class="bread-crumb">
           <router-link
@@ -10,7 +10,7 @@
             >{{ $t('Home') }}</router-link
           >
           <i class="fas fa-angle-right"></i>
-          <strong>{{ pet.PetName }}</strong>
+          <strong>{{ product.ProductName }}</strong>
         </div>
       </div>
     </div>
@@ -23,103 +23,105 @@
               <div class="image-track w-100">
                 <div
                   class="mini-image mb-3"
-                  v-for="(image, index) in pet.Images"
+                  v-for="(image, index) in product.Images"
                   :key="image"
                 >
                   <img
                     @click="selectedImg = index"
                     class="img-responsive w-100 lazy-loaded"
-                    :src="require(`@/assets/images/${image}`)"
+                    :src="require(`@/assets/images/product/${image}`)"
                     alt=""
                   />
                 </div>
               </div>
             </div>
-            <div class="col-sm-10 gutter flex-column">
+            <div class="col-sm-10 gutter">
               <div
                 class="product-img"
-                v-for="(image, index) in pet.Images"
+                v-for="(image, index) in product.Images"
                 :key="image"
               >
                 <img
                   class="img-fluid"
-                  :src="require(`@/assets/images/${image}`)"
+                  :src="require(`@/assets/images/product/${image}`)"
                   v-if="selectedImg == index"
                   alt=""
                 />
               </div>
-
-              <b-button
-                v-if="!isManager"
-                class="mt-4"
-                :text="$t('SetAppointment')"
-                @click="onSetAppointment"
-              />
             </div>
           </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12 col-12">
+        <div class="col-lg-4 col-md-5 col-sm-12 col-12">
           <div class="detail text-start">
-            <h2 class="product-title">{{ pet.PetName }}</h2>
+            <h2 class="product-title">{{ product.ProductName }}</h2>
+            <div class="product-">
+              <h4 style="color: #ff7a00; font-weight: bold">
+                {{ product.Price }} VND
+              </h4>
+              <hr />
             </div>
-            <div class="product-summary text-left">
-              <span class="weight">
-                {{ $t('Species') }}: <span>{{ pet.SpeciesName }}</span>
-              </span>
+            <div class="product-summary text-left mb-3">
+              <span class="weight"> {{ $t('ManufacturingDate') }}: {{ formatDateX(product.ManufacturingDate) }} </span>
               <br />
-              <span class="state">
-                {{ $t('HealthState') }}: <span>{{ pet.HealthStateName }}</span>
+              <span class="calories mb-1">
+                {{ $t('ExpiredDate') }}: {{ formatDateX(product.ExpiredDate) }}
               </span>
-              <br />
-              <span class="state">
-                {{ $t('AdoptingState') }}: <span>{{ pet.IsAdopted ? $t('Adopted') : $t('WaitingForAdopting') }}</span>
+              <br>
+              <span class="stock mb-1">
+                {{ $t('State') }}: {{ product.StateID == 1 ? $t('Stocking') : $t('OutOfStock') }}
               </span>
-              <p class="mb-0" style="white-space: pre-line">
-                {{ pet.Description }}
+              <p class="mb-0 pb-0" style="white-space: pre-line">
+                {{ product.Description }}
               </p>
             </div>
+            <form @submit.prevent="addToCart" action="">
+              <small
+                id="message"
+                style="color: red; font-weight: bold"
+              ></small>
+              <span v-if="!product.State == 2" style="color: red; font-weight: bold">Out of Stock</span>
+              <br />
+              <b-button
+                :text="$t('AddToCart')"
+              />
+            </form>
           </div>
         </div>
+        <div class="col-lg-3 col-md-12 col-12"></div>
       </div>
     </div>
+  </div>
 </template>
 
 <script>
-import PetAPI from '@/api/PetAPI';
-import Pet from '@/model/Pet';
+import Product from '@/model/Product';
+import ProductAPI from '@/api/ProductAPI';
+import { formatDate } from '@/common/commonFunction';
 
 export default {
-  name: "PetDetail",
+  name: "ProductDetail",
   data() {
     return {
-      petID: null,
-      pet: new Pet(),
-      selectedImg: 0,
-      isManager: false
+      product: new Product(),
+      productID: null,
+      selectedImg: 0
     }
   },
   created() {
-    this.isManager = this.$store.getters.isAdmin;
-    this.petID = this.$route.query.id;
+    this.productID = this.$route.query.id;
     this.getData();
   },
   methods: {
-    /**
-     * Lấy dữ liệu chi tiết
-     */
     getData() {
-      PetAPI.getByID(this.petID).then(res => {
+      ProductAPI.getByID(this.productID).then(res => {
         if (res.data.success) {
-          this.pet = res.data.data;
-          this.pet.Images = this.pet.Images.split(';');
+          this.product = res.data.data;
+          this.product.Images = this.product.Images.split(';');
         }
       })
     },
-    /**
-     * Đặt lịch hẹn xem và nhận nuôi
-     */
-    onSetAppointment() {
-
+    formatDateX(s) {
+      return formatDate(s);
     }
   }
 }
@@ -127,6 +129,7 @@ export default {
 
 <style lang="scss" scoped>
 .bread-crumb {
+  font-size: 14px;
   font-weight: 500;
   color: #878787;
 }
@@ -142,7 +145,7 @@ export default {
   color: #878787;
 }
 .content .detail p {
-  text-align: start;
+  font-size: 14px;
   color: #a8a8a8;
   line-height: 28px;
   font-weight: 400;
@@ -165,11 +168,5 @@ export default {
 }
 .mini-image:hover {
   cursor: pointer;
-}
-.product-img img{
-  max-height: 400px;
-}
-.product-summary span {
-  font-weight: 700;
 }
 </style>
