@@ -23,6 +23,7 @@
               v-model="searchText"
               :placeholder="$t('ProductSearchPlaceholder')"
               :isSearchTextBox="true"
+              @valueChanged="onSearch"
             />
           </div>
         </div>
@@ -68,7 +69,7 @@
             </div>
             <div class="box-info mt-3">
               <div
-                class="product-name"
+                class="product-name cursor-pointer"
                 @click="onViewDetail(product.ProductID)"
               >
                 {{ product.ProductName }}
@@ -95,7 +96,8 @@ export default {
   data() {
     return {
       searchText: "",
-      products: []
+      products: [],
+      allProducts: []
     }
   },
   created() {
@@ -107,6 +109,7 @@ export default {
       ProductAPI.getAll().then(res => {
         if (res.data.success) {
           me.products = res.data.data;
+          me.allProducts = res.data.data;
         }
       }, err => {
         console.log(err)
@@ -124,14 +127,24 @@ export default {
     onUpdateProduct(productID) {
       this.$router.push({ path: '/setting/product/update', query: {id: productID}})
     },
-    onDeletePrpduct(petID) {
-      ProductAPI.deleteByID(petID).then(res => {
+    onDeleteProduct(productID) {
+      ProductAPI.deleteByID(productID).then(res => {
         if (res.data.success) {
           success(this.$t('DeleteProductSuccessfully'));
           this.getDataSource()
         }
       })
     },
+    /**
+     * Tìm kiếm
+     */
+    onSearch(val) {
+      if (val && val.length > 0) {
+        this.products = this.allProducts.filter(x => x.ProductName.toLowerCase().includes(val));
+      } else {
+        this.products = this.allProducts;
+      }
+    }
   }
 }
 </script>

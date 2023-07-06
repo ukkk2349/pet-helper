@@ -25,6 +25,7 @@
               v-model="searchText"
               :placeholder="$t('PetSearchPlaceholder')"
               :isSearchTextBox="true"
+              @valueChanged="onSearch"
             />
           </div>
         </div>
@@ -33,7 +34,7 @@
       <!-- pets list -->
       <div class="row">
         <div
-          class="col-lg-4 col-md-4 col-sm-6 col-12 col-item"
+          class="col-lg-3 col-md-3 col-sm-6 col-12 col-item"
           style="transition: 0.3s"
           v-for="pet in listPet"
           :key="pet.PetID"
@@ -71,7 +72,7 @@
               </div>
             </div>
             <div class="box-info">
-              <div class="pet-name" @click="onViewDetail(pet.PetID)">{{
+              <div class="pet-name cursor-pointer" @click="onViewDetail(pet.PetID)">{{
                 pet.PetName
               }}</div>
               <br />
@@ -92,6 +93,7 @@ export default {
   data() {
     return {
       listPet: [],
+      allPet: [],
       searchText: ""
     }
   },
@@ -104,6 +106,7 @@ export default {
       PetAPI.getAll().then(res => {
         if (res.data.success) {
           me.listPet = res.data.data;
+          me.allPet = res.data.data;
         }
       }, err => {
         console.log(err)
@@ -112,8 +115,12 @@ export default {
     /**
      * Tìm kiếm
      */
-    onSearch() {
-
+    onSearch(val) {
+      if (val && val.length > 0) {
+        this.listPet = this.allPet.filter(x => x.PetName.toLowerCase().includes(val));
+      } else {
+        this.listPet = this.allPet;
+      }
     },
     /**
      * Hiển thị form thêm thú cưng

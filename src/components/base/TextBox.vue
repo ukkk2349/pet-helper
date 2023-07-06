@@ -12,7 +12,7 @@
       :class="{'pl-4': isSearchTextBox}"
       :mask="mask"
       :mask-rules="maskRule"
-      @value-changed="valueChanged"
+      @value-changed="valueChanged($event)"
     >
       <DxValidator v-if="require">
         <DxRequiredRule :message="$t('RequireValidateMessage', {name: name && name.length > 0 ? name : label})"/>
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     valueChanged(e) {
-      this.$emit('valueChanged', e);
+      this.$emit('valueChanged', e.value);
     },
     clickViewPassword() {
       this.passwordMode = this.passwordMode === 'text' ? 'password' : 'text';
