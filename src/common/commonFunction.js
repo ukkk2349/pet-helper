@@ -18,4 +18,13 @@ function success(content) {
   { position: 'bottom right' });
 }
 
-export {success};
+function formatDate(date) {
+  if (date && date.length > 0) {
+    var d = new Date(date);
+    return d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+  } else {
+    return "";
+  }
+}  
+
+export {success, formatDate};

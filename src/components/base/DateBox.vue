@@ -2,7 +2,7 @@
   <div class="date-box-wrapper" :class="[{'dis-flex justify-content-between' : !verticalLabel}, {'has-label': isShowLabel}]">
     <div v-if="isShowLabel" :for="id" class="text-left mb-1 font-weight-bold">{{ label }} <span v-if="require" class="require"></span></div>
     <DxDateBox
-      :value="valueInput"
+      v-model="valueInput"
       :input-attr="{ 'aria-label': 'Date' }"
       :type="type"
       :disabled="disabled"
@@ -70,7 +70,7 @@ export default {
         return this.modelValue;
       },
       set(val) {
-        this.$t("update:modelValue", val);
+        this.$emit("update:modelValue", val);
       }
     }
   },

@@ -2,8 +2,8 @@
   <div class="container">
     <div class="col-sm-8 col-lg-6 offset-sm-2 offset-lg-3">
       <div class="form-wrapper">
-        <h1 class="setting-title">{{ $t('AddPet') }}</h1>
-        <b-validate ref="validateAddPet">
+        <h1 class="setting-title">{{ $t('AddProduct') }}</h1>
+        <b-validate ref="validateAddProduct">
           <div
             v-if="previewImage != null"
             class="image-preview-wrapper"
@@ -48,10 +48,58 @@
           <div class="row">
             <div class="col">
               <b-text-box
-                v-model="pet.PetName"
+                v-model="product.ProductName"
                 :isShowLabel="true"
-                :label="$t('PetName')"
+                :label="$t('ProductName')"
                 require
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <b-date-box
+                :isShowLabel="true"
+                :label="$t('ManufacturingDate')"
+                v-model="product.ManufacturingDate"
+                require
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <b-date-box
+                :isShowLabel="true"
+                :label="$t('ExpiredDate')"
+                v-model="product.ExpiredDate"
+                require
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <b-text-box
+                v-model="product.Origin"
+                :isShowLabel="true"
+                :label="$t('Origin')"
+                require
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <b-select-box
+                :items="dataCbbState"
+                displayExpr="Name"
+                valueExpr="ID"
+                :placeholder="$t('State')"
+                :isShowLabel="true"
+                :label="$t('State')"
+                require
+                @onSelectionChanged="onSelectState"
               />
             </div>
           </div>
@@ -59,24 +107,25 @@
           <div class="row">
             <div class="col">
               <b-number-box
-                v-model="pet.Age"
+                v-model="product.Price"
                 :isShowLabel="true"
-                :label="$t('Age')"
+                :label="$t('Price')"
                 require
               />
             </div>
           </div>
+
           <div class="row">
             <div class="col">
               <b-select-box
-                :items="dataCbbSpecies"
+                :items="dataCbbProductCategory"
                 displayExpr="Name"
                 valueExpr="ID"
-                :placeholder="$t('Species')"
+                :placeholder="$t('ProductCategory')"
                 :isShowLabel="true"
-                :label="$t('Species')"
+                :label="$t('ProductCategory')"
                 require
-                @onSelectionChanged="onSelectSpecies"
+                @onSelectionChanged="onSelectProductCategory"
               />
             </div>
           </div>
@@ -84,25 +133,10 @@
           <div class="row">
             <div class="col">
               <b-text-area
-                v-model="pet.Description"
+                v-model="product.Description"
                 :isShowLabel="true"
                 :label="$t('Description')"
                 require
-              />
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <b-select-box
-                :items="dataCbbHealthState"
-                displayExpr="Name"
-                valueExpr="ID"
-                :placeholder="$t('HealthState')"
-                :isShowLabel="true"
-                :label="$t('HealthState')"
-                require
-                @onSelectionChanged="onSelectHealthState"
               />
             </div>
           </div>
@@ -114,7 +148,7 @@
                 :text="$t('Add')"
                 style="width: 80px"
                 class="ml-2"
-                @click="onAddPet"
+                @click="onAddProduct"
               />
               <b-button
                 :text="$t('Cancel')"
@@ -132,109 +166,63 @@
 </template>
 
 <script>
-import Pet from '@/model/Pet';
-import PetAPI from '@/api/PetAPI';
+import Product from '@/model/Product';
+import ProductAPI from '@/api/ProductAPI';
 import { success } from '@/common/commonFunction';
 
 export default {
-  name: "PetForm",
+  name: "ProductForm",
   data() {
     return {
-      pet: new Pet(),
-      previewImage: null,
+      product: new Product(),
       errorMsg: "",
+      previewImage: null,
       images: [],
-      petID: null,
-      dataCbbSpecies: [
+      dataCbbState: [
         {
           ID: 1,
-          Name: this.$t('Dog')
+          Name: this.$t('Stocking')
         },
         {
           ID: 2,
-          Name: this.$t('Cat')
-        },
-        {
-          ID: 3,
-          Name: this.$t('Bird')
-        },
-        {
-          ID: 4,
-          Name: this.$t('Different')
-        },
+          Name: this.$t('OutOfStock')
+        }
       ],
-      dataCbbHealthState: [
+      dataCbbProductCategory: [
         {
           ID: 1,
-          Name: this.$t('Good')
+          Name: this.$t('Food')
         },
         {
           ID: 2,
-          Name: this.$t('Weak')
+          Name: this.$t('Effects')
         },
         {
           ID: 3,
-          Name: this.$t('BeingTreated')
+          Name: this.$t('CareSupply')
         },
       ]
     }
   },
-  created() {
-    this.pet = new Pet();
-    this.petID = this.$route.query.id;
-    if (this.petID) {
-      PetAPI.getByID(this.petID).then(res => {
-        if (res.data.success) {
-          this.pet = res.data.data;
-        }
-      })
-    }
-  },
   methods: {
-    /**
-     * Chọn loài
-     * @param {object} e item
-     */
-    onSelectSpecies(e) {
-      if (e) {
-        this.pet.SpeciesID = e.ID;
-        this.pet.SpeciesName = e.Name;
-      }
+    onCancel() {
+      this.$router.push('/setting/product');
     },
-    /**
-     * Chọn tình trạng sức khoẻ
-     * @param {object} e 
-     */
-    onSelectHealthState(e) {
-      if (e) {
-        this.pet.HealthStateID = e.ID;
-        this.pet.HealthStateName = e.Name;
-      }
-    },
-    /**
-     * Thêm thú cưng mới
-     */
-    onAddPet() {     
-      if (this.$refs.validateAddPet.validate() && this.validateAvatar()) {
-        this.pet.Images = this.images.join("\\");
-        PetAPI.save(this.pet).then(res => {
+    onAddProduct() {
+      if (this.$refs.validateAddProduct.validate() && this.validateAvatar()) {
+        this.product.Images = this.images.join("\\");
+        ProductAPI.save(this.product).then(res => {
           if (res && res.data) {
-            success(this.$t('AddPetSuccessfully'));
-            this.$router.push('/setting/pet')
+            success(this.$t('AddProductSuccessfully'));
+            this.$router.push('/setting/product')
           }
         })
       }
     },
     /**
-     * Huỷ thêm -> trở về màn danh sách thú cưng
-     */
-    onCancel() {
-      this.$router.push('/setting/pet');
-    },
-    /**
      * validate ảnh đại diện là bắt buộc
      */
-    validateAvatar() {
+     validateAvatar() {
       if (this.previewImage) {
         return true;
       } else {
@@ -245,7 +233,7 @@ export default {
     /**
      * Lấy ảnh preview khi chọn ảnh đại diện
      */
-    updateAvatar() {
+     updateAvatar() {
       this.errorMsg = null;
       let input = this.$refs.fileInput;
       let file = input.files;
@@ -253,16 +241,16 @@ export default {
         let reader = new FileReader;
         reader.onload = e => {
           this.previewImage = e.target.result;
-          this.pet.PetAvatar = e.target.result;
+          this.product.ProductAvatar = e.target.result;
         }
 
         reader.readAsDataURL(file[0]);
       }
     },
     /**
-     * Chọn ảnh bổ sung của thú cưng
+     * Chọn ảnh bổ sung
      */
-    updateImages() {
+     updateImages() {
       this.images = [];
       var me = this;
       var files = this.$refs.fileInputs.files;
@@ -279,8 +267,24 @@ export default {
         reader.readAsDataURL(file);
       }
       readFile(0);
+    },
+    onSelectState(e) {
+      if (e) {
+        this.product.StateID = e.ID;
+        this.product.StateName = e.Name;
+      }
+    },
+    /**
+     * Chọn phân loại sản phẩm
+     * @param {object} e 
+     */
+    onSelectProductCategory(e) {
+      if (e) {
+        this.product.ProductCategoryID = e.ID;
+        this.product.ProductCategoryName = e.Name
+      }
     }
-  } 
+  }
 }
 </script>
 

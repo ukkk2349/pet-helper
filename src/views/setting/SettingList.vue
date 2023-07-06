@@ -88,7 +88,9 @@ export default {
         case 1:
           this.$router.push('/setting/pet')
           break;
-      
+        case 2:
+          this.$router.push('/setting/product');
+          break;
         default:
           break;
       }
