@@ -2,7 +2,8 @@
   <button 
     class="btn-custom" 
     :class="[type, {'no-border bg-transparent': !showBorder }]"
-    :disabled="disabled" 
+    :disabled="disabled"
+    :title="text" 
   >
     <div class="btn-content d-flex align-items-center justify-content-around">
       <b-icon v-if="showPreIcon" :class="preIcon"/>

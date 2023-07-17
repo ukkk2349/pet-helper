@@ -7,6 +7,9 @@ const getters = {
   },
   isAdmin(state) {
     return state.isAdmin;
+  },
+  isManager(state) {
+    return state.isManager;
   }
 }
 

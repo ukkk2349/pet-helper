@@ -33,10 +33,11 @@
                 @click="onClickForgotPassword"
               />
             </div>
-            <button type="submit" class="submit-button" @click="onClickSignIn">{{ $t("LogIn") }}</button>
+            <button type="submit" id="signInBtn" class="submit-button" @click="onClickSignIn">{{ $t("LogIn") }}</button>
             <div class="box-register">
               <span class="or-register mr-2"> {{ $t("DontHaveAnAccount") }} </span>
-              <b-button 
+              <b-button
+                id="signInBtn" 
                 @click="onClickSignUp" 
                 type="link" 
                 :showBorder="false" 
@@ -61,6 +62,19 @@ export default {
       password: "",
       errorMessage: ""
     }
+  },
+  created() {
+    document.addEventListener('keypress', e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        var signInBtn = document.getElementById('signInBtn');
+        if (signInBtn) {
+          signInBtn.click();
+        }
+      }
+    })
+  },
+  unmounted() {
   },
   methods: {
     /**

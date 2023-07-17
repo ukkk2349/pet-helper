@@ -82,7 +82,7 @@
   "ChoseImage": "Đã chọn {number} ảnh",
   "PleaseChooseAvatar": "Vui lòng chọn ảnh đại diện",
   "Images": "Ảnh bổ sung",
-  "SetAppointment": "Đặt lịch hẹn xem và nhận nuôi",
+  "SetAppointmentToViewAndAdopt": "Đặt lịch hẹn xem và nhận nuôi",
   "ProductList": "Danh sách sản phẩm",
   "Stocking": "Còn hàng",
   "OutOfStock": "Hết hàng",
@@ -116,5 +116,15 @@
   "ChooseAndFilter": "Chọn và lọc",
   "All": "Tất cả",
   "Reset": "Khôi phục",
-  "AddToCartSuccessfully": "Thêm sản phẩm vào giỏ hàng thành công"
+  "AddToCartSuccessfully": "Thêm sản phẩm vào giỏ hàng thành công",
+  "AppointmentDate": "Ngày hẹn xem",
+  "EngageToJoinAppointment": "Tôi xin hứa sẽ đảm bảo đến cuộc hẹn đúng giờ và không thất hẹn.",
+  "WeNeedYourEngagement": "Chúng tôi cần sự cam đoan của bạn!",
+  "SetAppointment": "Đặt lịch",
+  "Save": "Lưu",
+  "Today": "Hôm nay",
+  "AppointmentWaitingForAccept": "Đang chờ xác nhận",
+  "AppointmentAccepted": "Đã xác nhận",
+  "SetAppointmentSuccessfully": "Đặt lịch hẹn thành công",
+  "PetHadBeenAdopted": "Bạn nhỏ đã được nhận nuôi rồi"
 }

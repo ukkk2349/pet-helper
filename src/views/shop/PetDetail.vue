@@ -50,10 +50,17 @@
               </div>
 
               <b-button
-                v-if="!isManager"
+                v-if="!isManager && !pet.IsAdopted"
                 class="mt-4"
-                :text="$t('SetAppointment')"
+                :text="$t('SetAppointmentToViewAndAdopt')"
                 @click="onSetAppointment"
+              />
+              <b-button
+                type="secondary"
+                v-if="pet.IsAdopted"
+                class="mt-4"
+                :text="$t('PetHadBeenAdopted')"
+                disabled
               />
             </div>
           </div>
@@ -99,7 +106,7 @@ export default {
     }
   },
   created() {
-    this.isManager = this.$store.getters.isAdmin;
+    this.isManager = this.$store.getters.isManager;
     this.petID = this.$route.query.id;
     this.getData();
   },
@@ -119,7 +126,7 @@ export default {
      * Đặt lịch hẹn xem và nhận nuôi
      */
     onSetAppointment() {
-
+      this.$router.push({ path: '/appointment', query: {id: this.petID}});
     }
   }
 }

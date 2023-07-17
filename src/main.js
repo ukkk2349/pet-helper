@@ -24,6 +24,7 @@ import TextBox from '@/components/base/TextBox.vue';
 import TextArea from '@/components/base/TextArea.vue';
 import NumberBox from '@/components/base/NumberBox.vue';
 import DateBox from '@/components/base/DateBox.vue';
+import Checkbox from '@/components/base/Checkbox.vue';
 import Validate from '@/components/base/Validate.vue';
 import {
   DxValidator,
@@ -56,5 +57,6 @@ createApp(App)
 .component('b-text-area', TextArea)
 .component('b-number-box', NumberBox)
 .component('b-date-box', DateBox)
+.component('b-check-box', Checkbox)
 .component('b-validate', Validate)
 .mount('#app')

@@ -20,26 +20,24 @@
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-item" v-if="index<3">
             <div class="item">
               <div class="box-img">
-                <div class="pet-image" @click="onViewPetDetail(pet.PetID)">
+                <div class="pet-image cursor-pointer" @click="onViewPetDetail(pet.PetID)">
                   <img class="img-fluid lazy-loaded" :src="require(`@/assets/images/${pet.PetAvatar}`)" :alt="pet.PetName">
                 </div>
               </div>
               <div class="box-info">
-                <div class="pet-name" @click="onViewPetDetail(pet.PetID)">{{ pet.name }}</div>
+                <div class="pet-name cursor-pointer" @click="onViewPetDetail(pet.PetID)">{{ pet.PetName }}</div>
               </div>
             </div>
           </div>
         </template>
       </div>
-      <span class="view-all text-end">
+      <div class="view-all text-end">
         <b-button
-          type="link"
-          :text="$t('ViewAll')"
-          :showBorder="false"
+          :text="$t('ViewAll') + ' >>'"
           @click="onClickViewAll(1)"
         >
         </b-button>
-      </span>
+      </div>
     </div>
 
     <div class="product container-fluid" style="padding-top: 80px">
@@ -48,13 +46,13 @@
         <template v-for="(product, index) in products" :key="product.ProductID">
           <div v-if="index<4" class="col-lg-3 col-md-4 col-sm-6 col-12 col-item gutter" style="padding: 0">
             <div class="item">
-              <div class="box-img">
+              <div class="box-img cursor-pointer">
                 <div @click="onViewProductDetail(product.ProductID)">
                   <img class="img-responsive w-100 lazy-loaded" :src="require(`@/assets/images/product/${product.ProductAvatar}`)" :alt="product.ProductName">
                 </div>
               </div>
               <div class="box-info">
-                <div class="product-name" @click="onViewProductDetail(product.ProductID)" style="padding: 20px 0 4px 0">{{ product.ProductName }}</div>
+                <div class="product-name cursor-pointer" @click="onViewProductDetail(product.ProductID)" style="padding: 20px 0 4px 0">{{ product.ProductName }}</div>
                 <br>
                 <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ product.Price }}</p>
                 <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
@@ -63,15 +61,13 @@
           </div>
         </template>
       </div>
-      <span class="view-all text-end">
+      <div class="view-all text-end">
         <b-button
-          type="link"
-          :text="$t('ViewAll')"
-          :showBorder="false"
+          :text="$t('ViewAll') + ' >>'"
           @click="onClickViewAll(2)"
         >
         </b-button>
-      </span>
+      </div>
     </div>
 
   </div>
@@ -234,7 +230,7 @@ export default {
   }
   .pets .box-img {
     /* border-radius: 50%; */
-    clip-path: circle(31%);
+    clip-path: circle(32%);
     height: 250px;
     margin-bottom: 15px;
     overflow: hidden;

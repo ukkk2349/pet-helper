@@ -51,7 +51,7 @@
             </div>
           </div>
         </div>
-        <div class="col-lg-4 col-md-5 col-sm-12 col-12">
+        <div class="col-lg-5 col-md-5 col-sm-12 col-12">
           <div class="detail text-start">
             <h2 class="product-title">{{ product.ProductName }}</h2>
             <div class="product-">
@@ -78,7 +78,7 @@
                 {{ product.Description }}
               </p>
             </div>
-            <form @submit.prevent="addToCart" action="">
+            <div>
               <small
                 id="message"
                 style="color: red; font-weight: bold"
@@ -90,7 +90,7 @@
                 :text="$t('AddToCart')"
                 @click="addToCart"
               />
-            </form>
+            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-12"></div>
@@ -137,6 +137,9 @@ export default {
     formatDateX(s) {
       return formatDate(s);
     },
+    /**
+     * Thêm vào giỏ hàng
+     */
     addToCart() {
       var cart = new Cart();
       cart.Price = this.product.Price;
@@ -146,6 +149,7 @@ export default {
       CartAPI.save(cart).then(res => {
         if (res && res.data.success) {
           success(this.$t('AddToCartSuccessfully'));
+          this.$store.dispatch('addToCart');
         }
       }, err => {
         console.log(err);
