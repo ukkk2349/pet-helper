@@ -16,6 +16,9 @@ import ProductForm from '@/views/setting/ProductForm';
 import PetList from '@/views/shop/PetList';
 import ProductList from '@/views/shop/ProductList';
 
+// lịch hẹn
+import AppointmentForm from '@/views/appointment/AppointmentForm';
+
 const routes = [
     {
         path: '/',
@@ -105,6 +108,13 @@ const routes = [
             title: 'Sản phẩm'
         }
     },
+    {
+        path: '/appointment',
+        component: AppointmentForm,
+        meta: {
+            title: 'Đăng ký đặt lịch hẹn nhận nuôi'
+        }
+    },
 ]
 
 const router = createRouter({
@@ -114,7 +124,7 @@ const router = createRouter({
 
 // eslint-disable-next-line no-unused-vars
 router.beforeEach((to, from) => {
-    document.title = to.meta?.title ?? 'MiniPaw'
+    document.title = to.meta?.title ? to.meta?.title + ' | MiniPaw' : 'MiniPaw'
 })
   
 

@@ -6,6 +6,11 @@
       :input-attr="{ 'aria-label': 'Date' }"
       :type="type"
       :disabled="disabled"
+      :use-mask-behavior="true"
+      :display-format="displayFormat"
+      :applyButtonText="$t('Save')"
+      :cancelButtonText="$t('Cancel')"
+      :todayButtonText="$t('Today')"
     >
       <DxValidator v-if="require">
         <DxRequiredRule :message="$t('RequireValidateMessage', {name: name && name.length > 0 ? name : label})"/>
@@ -71,6 +76,13 @@ export default {
       },
       set(val) {
         this.$emit("update:modelValue", val);
+      }
+    },
+    displayFormat() {
+      if (this.type == 'date') {
+        return 'dd/MM/yyyy';
+      } else {
+        return 'dd/MM/yyyy HH:mm'
       }
     }
   },

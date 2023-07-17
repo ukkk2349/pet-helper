@@ -21,13 +21,23 @@
                 $t("Home")
               }}</router-link>
             </li>
-            <b-dropdown
+            <!-- <b-dropdown
               :title="$t('Shop')"
               :items="shopItems"
               displayExpr="Name"
               @onSelectItem="onSelectShopItem"
             >
-            </b-dropdown>
+            </b-dropdown> -->
+            <li class="nav-item">
+              <router-link class="nav-link" to="/pet">{{
+                $t("Pet")
+              }}</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/product">{{
+                $t("Shop")
+              }}</router-link>
+            </li>
             <li class="nav-item">
               <router-link class="nav-link" to="/about">{{
                 $t("AboutUs")
@@ -43,7 +53,7 @@
             @click="openSearch"
           />
           
-          <template v-if="auth && isAdmin">
+          <template v-if="auth && isManager">
             <b-icon
               icon="fa-solid fa-gear"
               id="adminSettingIcon"
@@ -58,7 +68,7 @@
             />
           </template>
           
-          <div class="cart" id="cartIcon">
+          <div v-if="!isManager" class="cart" id="cartIcon">
             <b-icon
               class="cart-icon"
               icon="fa-solid fa-cart-shopping"
@@ -132,7 +142,7 @@ export default {
       openSearchForm: false,
       search_request: "",
       message: null,
-      isAdmin: false,
+      isManager: false,
       productQuantity: 0,
       shopItems: [
         {
@@ -147,7 +157,8 @@ export default {
     };
   },
   created() {
-    this.isAdmin = this.$store.getters.isAdmin ? true : false;
+    this.isManager = this.$store.getters.isManager ? true : false;
+    console.log(this.isManager)
   },
   computed: {
     auth() {
@@ -194,6 +205,13 @@ export default {
       this.$store.dispatch("logout");
     }
   },
+  watch: {
+    "$store.state.cart": {
+      handler(val) {
+        this.productQuantity = val;
+      }
+    }
+  }
 };
 </script>
 

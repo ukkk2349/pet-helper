@@ -18,6 +18,24 @@ function success(content) {
   { position: 'bottom right' });
 }
 
+function error(content) {
+  notify({
+    message: content,
+    height: 45,
+    width: 'fit-content',
+    minWidth: 150,
+    type: 'error',
+    displayTime: 3500,
+    animation: {
+      show: {
+        type: 'fade', duration: 400, from: 0, to: 1,
+      },
+      hide: { type: 'fade', duration: 40, to: 0 },
+    },
+  },
+  { position: 'bottom right' });
+}
+
 function formatDate(date) {
   if (date && date.length > 0) {
     var d = new Date(date);
@@ -27,4 +45,4 @@ function formatDate(date) {
   }
 }  
 
-export {success, formatDate};
+export {success, error, formatDate};

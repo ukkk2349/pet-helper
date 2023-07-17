@@ -9,7 +9,8 @@ export const store = createStore({
   //export default new Vuex.Store({
   state: {
     userKey: localStorage.getItem('userKey') || null,
-    isAdmin: localStorage.getItem('isAdmin') || null,
+    isAdmin: Boolean(parseInt(localStorage.getItem('isAdmin'))) || null,
+    isManager: Boolean(parseInt(localStorage.getItem('isManager'))) || null,
     user: null,
     cart: localStorage.getItem('cart') || 0
   },
@@ -18,23 +19,32 @@ export const store = createStore({
     authUser(state, userData) {
       state.userKey = userData.userKey;
       state.isAdmin = userData.isAdmin;
+      state.isManager = userData.isManager;
+      state.cart = userData.cart;
     },
     storeUser(state, user) {
       state.user = user;
     },
     clearAuthData(state) {
-      state.idToken = null,
-      state.userKey = null,
-      state.isAdmin = 0
+      state.userKey = null;
+      state.isAdmin = 0;
+      state.cart = 0;
+    },
+    addToCart(state) {
+      state.cart == state.cart != null ? state.cart++ : 0;
     }
   },
   actions: {
     login({ commit }, authData) {
       localStorage.setItem('userKey', authData.userKey);
-      localStorage.setItem('isAdmin', authData.isAdmin);  
+      localStorage.setItem('isAdmin', authData.isAdmin ? 1 : 0);  
+      localStorage.setItem('isManager', authData.isManager ? 1 : 0);  
+      localStorage.setItem('cart', authData.cart);  
       commit('authUser', {
         userKey: authData.userKey,
-        isAdmin: authData.isAdmin 
+        isAdmin: authData.isAdmin,
+        isManager: authData.isManager,
+        cart: authData.cart
       })
     },
     logout({ commit }) {
@@ -44,6 +54,9 @@ export const store = createStore({
       localStorage.removeItem('cart');
       localStorage.clear();
       router.replace('/sign-in');
+    },
+    addToCart({commit}) {
+      commit('addToCart');
     }
   }
 })
