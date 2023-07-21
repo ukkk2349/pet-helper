@@ -126,5 +126,17 @@
   "AppointmentWaitingForAccept": "Đang chờ xác nhận",
   "AppointmentAccepted": "Đã xác nhận",
   "SetAppointmentSuccessfully": "Đặt lịch hẹn thành công",
-  "PetHadBeenAdopted": "Bạn nhỏ đã được nhận nuôi rồi"
+  "PetHadBeenAdopted": "Bạn nhỏ đã được nhận nuôi rồi",
+  "Quantity": "Số lượng",
+  "TotalMoney": "Thành tiền",
+  "CartEmpty": "Giỏ hàng đang trống",
+  "WrongAccountOrPassword": "Tên đăng nhập hoặc mật khẩu không đúng",
+  "CartTotal": "Tổng tiền",
+  "Total": "Tổng cộng",
+  "ProceedToCheckout": "Tiến hành mua hàng",
+  "DescriptionPetListHomePage": "Thật lòng cảm ơn các bạn đã ghé qua nơi này của chúng tớ. Chúng tớ cũng thật mong những sự quan tâm tuyệt vời này sẽ ngày càng lan toả đến nhiều người.",
+  "SubcribeForAdopting": "Đăng ký nhận nuôi",
+  "Approve": "Xác nhận",
+  "Reject": "Từ chối",
+  "Status": "Trạng thái"
 }

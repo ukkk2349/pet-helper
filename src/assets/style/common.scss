@@ -38,3 +38,19 @@ a {
 .bold {
   font-weight: 700;
 }
+
+.wrap-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.adopt-status {
+  &.adopted {
+    color: var(--orange);
+  }
+
+  &.not-adopted {
+    color: var(--green);
+  }
+}

@@ -184,8 +184,8 @@ export default {
     this.petID = this.$route.query.id;
     if (this.petID) {
       PetAPI.getByID(this.petID).then(res => {
-        if (res.data.success) {
-          this.pet = res.data.data;
+        if (res.data.Success) {
+          this.pet = res.data.Data;
         }
       })
     }
@@ -218,7 +218,7 @@ export default {
       if (this.$refs.validateAddPet.validate() && this.validateAvatar()) {
         this.pet.Images = this.images.join("\\");
         PetAPI.save(this.pet).then(res => {
-          if (res && res.data) {
+          if (res && res.data && res.data.Success) {
             success(this.$t('AddPetSuccessfully'));
             this.$router.push('/setting/pet')
           }

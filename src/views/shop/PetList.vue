@@ -35,11 +35,11 @@
       <!-- pets list -->
       <div
         style="transition: 0.3s"
-        :class="{ 'col-sm-6': isFiltering, 'col-md-8': isFiltering }"
+        :class="{ 'col-sm-6 col-md-8': isFiltering }"
       >
         <div
-          class="col-lg-4 col-md-4 col-sm-6 col-12 col-item"
-          style="transition: 0.3s"
+          class="col-lg-3 col-md-3 col-sm-4 col-12 col-item"
+          style="transition: 0.3s; padding: 30px;"
           v-for="pet in pets"
           :key="pet.PetID"
         >
@@ -54,7 +54,10 @@
               </div>
             </div>
             <div class="box-info cursor-pointer" @click="onViewDetail(pet.PetID)">
-              <div class="pet-name">{{
+              <div class="adopt-status" :class="pet.IsAdopted ? 'adopted' : 'not-adopted'">
+                {{ pet.IsAdopted ? $t('Adopted') : $t('WaitingForAdopting') }}
+              </div>
+              <div class="pet-name wrap-text" :title="pet.PetName">{{
                 pet.PetName
               }}</div>
               
@@ -65,7 +68,7 @@
 
       <!-- filter -->
       <div
-        :class="{ 'col-md-4': isFiltering, 'col-sm-6': isFiltering }"
+        :class="{ 'col-md-4 col-sm-6': isFiltering }"
         style="position: relative; transition: 0.3s"
       >
         <div
@@ -188,8 +191,8 @@ export default {
     getDataSource() {
       var me = this;
       PetAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.pets = res.data.data;
+        if (res.data.Success) {
+          me.pets = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -238,16 +241,20 @@ export default {
   font-size: 20px;
 }
 .item {
-  padding: 37px;
+  border-radius: var(--button-border-radius);
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10px;
 }
 .box-img {
   /* border-radius: 50%; */
-  clip-path: circle(31%);
+  // clip-path: circle(31%);
 
   margin-bottom: 15px;
   overflow: hidden;
   position: relative;
-  height: 250px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  border-radius: 10px;
 }
 .box-img img {
   transition: all 0.8s linear;
@@ -259,20 +266,22 @@ export default {
   transform: scale(1.04);
   transition: all 0.8s linear;
 }
-.box-info .pet-name {
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 28px;
-  display: inline-block;
-  margin-bottom: 10px;
-  color: black;
-  transition: all 0.3s;
-}
-.box-info .pet-name:hover {
-  color: #ff7a00;
-}
-.box-info p {
-  color: #888;
+.box-info {
+  .pet-name {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 28px;
+    margin-bottom: 10px;
+    color: black;
+    transition: all 0.3s;
+    &:hover {
+      color: var(--orange);
+    }
+  }
+
+  p {
+    color: #888;
+  }
 }
 .col-item {
   float: left;

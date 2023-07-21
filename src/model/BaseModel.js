@@ -4,6 +4,7 @@ class BaseModel {
     this.CreatedBy = null;
     this.ModifiedDate = new Date();
     this.ModifiedBy = null;
+    this.State = 1;
   }
 }
 

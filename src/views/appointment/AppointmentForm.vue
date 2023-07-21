@@ -89,8 +89,8 @@ export default {
     this.petID = this.$route.query.id;
     if (this.petID) {
       PetAPI.getByID(this.petID).then(res => {
-        if (res.data && res.data.success) {
-          this.pet = res.data.data;
+        if (res.data && res.data.Success) {
+          this.pet = res.data.Data;
         }
       })
     }
@@ -107,7 +107,7 @@ export default {
         this.appointment.StatusID = AppointmentStatus.WaitingForAccept;
         this.appointment.StatusName = this.$t('AppointmentWaitingForAccept');
         AppointmentAPI.save(this.appointment).then(res => {
-          if (res.data && res.data.success) {
+          if (res.data && res.data.Success) {
             success(this.$t('SetAppointmentSuccessfully'));
             this.$router.push('/');
           }

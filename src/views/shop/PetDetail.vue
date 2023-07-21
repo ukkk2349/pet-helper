@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row my-4">
-      <div class="col-sm-6 text-start">
+    <div class="row m-4">
+      <div class="col-sm-6 text-left">
         <div class="bread-crumb">
           <router-link
             class="back-to-home"
@@ -116,8 +116,8 @@ export default {
      */
     getData() {
       PetAPI.getByID(this.petID).then(res => {
-        if (res.data.success) {
-          this.pet = res.data.data;
+        if (res.data.Success) {
+          this.pet = res.data.Data;
           this.pet.Images = this.pet.Images.split(';');
         }
       })

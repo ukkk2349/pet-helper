@@ -25,7 +25,9 @@ import TextArea from '@/components/base/TextArea.vue';
 import NumberBox from '@/components/base/NumberBox.vue';
 import DateBox from '@/components/base/DateBox.vue';
 import Checkbox from '@/components/base/Checkbox.vue';
+import BaseGrid from '@/components/base/grid/BaseGrid.vue';
 import Validate from '@/components/base/Validate.vue';
+import SettingLayout from '@/components/layout/SettingLayout.vue';
 import {
   DxValidator,
   DxRequiredRule,
@@ -58,5 +60,7 @@ createApp(App)
 .component('b-number-box', NumberBox)
 .component('b-date-box', DateBox)
 .component('b-check-box', Checkbox)
+.component('b-grid', BaseGrid)
 .component('b-validate', Validate)
+.component('b-setting-layout', SettingLayout)
 .mount('#app')

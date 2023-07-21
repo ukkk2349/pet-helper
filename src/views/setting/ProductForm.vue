@@ -212,7 +212,7 @@ export default {
       if (this.$refs.validateAddProduct.validate() && this.validateAvatar()) {
         this.product.Images = this.images.join("\\");
         ProductAPI.save(this.product).then(res => {
-          if (res && res.data) {
+          if (res && res.data && res.data.Success) {
             success(this.$t('AddProductSuccessfully'));
             this.$router.push('/setting/product')
           }

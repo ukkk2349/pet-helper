@@ -100,11 +100,11 @@ export default {
         }
 
         UserAPI.signIn(userInfo).then(res => {
-          if (res.data.success) {
-            this.$store.dispatch("login", res.data.data);
+          if (res.data.Success) {
+            this.$store.dispatch("login", res.data.Data);
             this.$router.push('/');
           } else {
-            this.errorMessage = res.data.Message;
+            this.errorMessage = this.$t('WrongAccountOrPassword');
           }
         }, err => {
           console.error(err);
