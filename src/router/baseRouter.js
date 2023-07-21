@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from '@/views/HomePage';
+import About from '@/views/About';
 import LogIn from '@/views/account/Login';
 import SignUp from '@/views/account/SignUp';
 import SettingList from '@/views/setting/SettingList';
 import PetSetting from '@/views/setting/PetSetting';
 import PetForm from '@/views/setting/PetForm';
+import AppointmentSetting from '@/views/setting/AppointmentSetting';
 
 import PetDetail from '@/views/shop/PetDetail';
 import ProductDetail from '@/views/shop/ProductDetail';
@@ -16,6 +18,9 @@ import ProductForm from '@/views/setting/ProductForm';
 import PetList from '@/views/shop/PetList';
 import ProductList from '@/views/shop/ProductList';
 
+// đặt hàng
+import Cart from '@/views/order/Cart';
+
 // lịch hẹn
 import AppointmentForm from '@/views/appointment/AppointmentForm';
 
@@ -23,6 +28,13 @@ const routes = [
     {
         path: '/',
         component: HomePage
+    },
+    {
+        path: '/about',
+        component: About,
+        metat: {
+            title: "Giới thiệu"
+        }
     },
     {
         path: '/sign-in',
@@ -95,6 +107,13 @@ const routes = [
         }
     },
     {
+        path: '/setting/appointment-manager',   
+        component: AppointmentSetting,
+        meta: {
+            title: 'Đăng ký nhận nuôi'
+        }
+    },
+    {
         path: '/pet',   
         component: PetList,
         meta: {
@@ -113,6 +132,13 @@ const routes = [
         component: AppointmentForm,
         meta: {
             title: 'Đăng ký đặt lịch hẹn nhận nuôi'
+        }
+    },
+    {
+        path: '/cart',
+        component: Cart,
+        meta: {
+            title: 'Giỏ hàng'
         }
     },
 ]

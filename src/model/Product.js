@@ -9,7 +9,7 @@ class Product extends BaseModel {
     this.ExpiredDate = null;
     this.ManufacturingDate = null;
     this.Origin = null;
-    this.Price = null;
+    this.Price = 0;
     this.StateID = null;
     this.StateName = null;
     this.ProductCategoryID = null;

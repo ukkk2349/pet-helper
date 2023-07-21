@@ -107,9 +107,9 @@ export default {
     getDataSource() {
       var me = this;
       ProductAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.products = res.data.data;
-          me.allProducts = res.data.data;
+        if (res.data.Success) {
+          me.products = res.data.Data;
+          me.allProducts = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -129,9 +129,9 @@ export default {
     },
     onDeleteProduct(productID) {
       ProductAPI.deleteByID(productID).then(res => {
-        if (res.data.success) {
+        if (res.data.Success) {
           success(this.$t('DeleteProductSuccessfully'));
-          this.getDataSource()
+          this.getDataSource();
         }
       })
     },

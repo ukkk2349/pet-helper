@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-sm-6 text-start">
+    <div class="row m-4">
+      <div class="col-sm-6 text-left">
         <div class="bread-crumb">
           <router-link
             class="back-to-home"
@@ -48,6 +48,20 @@
                   alt=""
                 />
               </div>
+              
+              <div>
+                <small
+                  id="message"
+                  style="color: red; font-weight: bold"
+                ></small>
+                <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
+                <br />
+                <b-button
+                  v-if="!isManager"
+                  :text="$t('AddToCart')"
+                  @click="addToCart"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -56,7 +70,7 @@
             <h2 class="product-title">{{ product.ProductName }}</h2>
             <div class="product-">
               <h4 style="color: #ff7a00; font-weight: bold">
-                {{ product.Price }} VND
+                {{ formatMoney(product.Price) }}
               </h4>
               <hr />
             </div>
@@ -78,19 +92,6 @@
                 {{ product.Description }}
               </p>
             </div>
-            <div>
-              <small
-                id="message"
-                style="color: red; font-weight: bold"
-              ></small>
-              <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
-              <br />
-              <b-button
-                v-if="!isManager"
-                :text="$t('AddToCart')"
-                @click="addToCart"
-              />
-            </div>
           </div>
         </div>
         <div class="col-lg-3 col-md-12 col-12"></div>
@@ -104,7 +105,7 @@ import Product from '@/model/Product';
 import ProductAPI from '@/api/ProductAPI';
 import CartAPI from '@/api/CartAPI';
 import Cart from '@/model/Cart';
-import { formatDate } from '@/common/commonFunction';
+import { formatDate, formatMoney } from '@/common/commonFunction';
 import { success } from '@/common/commonFunction';
 
 export default {
@@ -128,8 +129,8 @@ export default {
      */
     getData() {
       ProductAPI.getByID(this.productID).then(res => {
-        if (res.data.success) {
-          this.product = res.data.data;
+        if (res.data.Success) {
+          this.product = res.data.Data;
           this.product.Images = this.product.Images.split(';');
         }
       })
@@ -147,13 +148,16 @@ export default {
       cart.ProductName = this.product.ProductName;
       cart.ProductAvatar = this.product.ProductAvatar;
       CartAPI.save(cart).then(res => {
-        if (res && res.data.success) {
+        if (res.data && res.data.Success) {
           success(this.$t('AddToCartSuccessfully'));
           this.$store.dispatch('addToCart');
         }
       }, err => {
         console.log(err);
       })
+    },
+    formatMoney(val) {
+      return formatMoney(val);
     }
   }
 }

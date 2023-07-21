@@ -72,6 +72,7 @@
             <b-icon
               class="cart-icon"
               icon="fa-solid fa-cart-shopping"
+              @click="onGoToCart"
             />
             <div class="quantity">
               <small>{{ productQuantity }}</small>
@@ -158,7 +159,7 @@ export default {
   },
   created() {
     this.isManager = this.$store.getters.isManager ? true : false;
-    console.log(this.isManager)
+    this.productQuantity = this.$store.getters.cart ? this.$store.getters.cart : 0;
   },
   computed: {
     auth() {
@@ -185,6 +186,9 @@ export default {
     onSelectShopItem(item) {
       this.$router.push(item.Link)
     },
+    /**
+     * Sự kiến ấn chọn icon user. Nếu chưa đăng nhập thì điều hướng về trang đăng nhập, rồi thì là về trang cá nhân
+     */
     onClickUserIcon() {
       if (this.auth) {
         this.$router.push('/profile');
@@ -197,6 +201,16 @@ export default {
      */
     onClickSettingAdmin() {
       this.$router.push('/setting');
+    },
+    /**
+     * Đến giỏ hàng cá nhân
+     */
+    onGoToCart() {
+      if (this.auth) {
+        this.$router.push('/cart');
+      } else {
+        this.$router.push('/sign-in');
+      }
     },
     /**
      * Đăng xuất

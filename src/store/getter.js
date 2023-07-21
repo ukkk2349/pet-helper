@@ -10,6 +10,9 @@ const getters = {
   },
   isManager(state) {
     return state.isManager;
+  },
+  cart(state) {
+    return state.cart;
   }
 }
 

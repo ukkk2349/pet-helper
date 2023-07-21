@@ -12,7 +12,7 @@ export const store = createStore({
     isAdmin: Boolean(parseInt(localStorage.getItem('isAdmin'))) || null,
     isManager: Boolean(parseInt(localStorage.getItem('isManager'))) || null,
     user: null,
-    cart: localStorage.getItem('cart') || 0
+    cart: localStorage.getItem('cart') || 1
   },
   getters: getters,
   mutations: {
@@ -36,15 +36,15 @@ export const store = createStore({
   },
   actions: {
     login({ commit }, authData) {
-      localStorage.setItem('userKey', authData.userKey);
-      localStorage.setItem('isAdmin', authData.isAdmin ? 1 : 0);  
-      localStorage.setItem('isManager', authData.isManager ? 1 : 0);  
-      localStorage.setItem('cart', authData.cart);  
+      localStorage.setItem('userKey', authData.UserKey);
+      localStorage.setItem('isAdmin', authData.IsAdmin ? 1 : 0);  
+      localStorage.setItem('isManager', authData.IsManager ? 1 : 0);  
+      localStorage.setItem('cart', authData.Cart);  
       commit('authUser', {
-        userKey: authData.userKey,
-        isAdmin: authData.isAdmin,
-        isManager: authData.isManager,
-        cart: authData.cart
+        userKey: authData.UserKey,
+        isAdmin: authData.IsAdmin,
+        isManager: authData.IsManager,
+        cart: authData.Cart
       })
     },
     logout({ commit }) {

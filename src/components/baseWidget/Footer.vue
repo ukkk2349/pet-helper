@@ -4,7 +4,7 @@
       <div class="col-sm-6 col-md-3">
         <h3 class="title">MiniPaw</h3>
         <ul>
-          <li>Hà Nội, Việt Name</li>
+          <li>Hà Nội, Việt Nam</li>
           <li>+ (84) 777-777-777</li>
           <li>minipaw@example.com</li>
           <li>minipaw.com</li>

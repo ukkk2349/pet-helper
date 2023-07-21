@@ -291,7 +291,7 @@ export default {
       if (this.$refs.validateSignInForm.validate()) {
         this.user.GenderID = 1;
         UserAPI.save(this.user).then(res => {
-          if (res.data.success) {
+          if (res.data.Success) {
             UserAPI.signIn({UserName: this.user.PhoneNumber, Password: this.user.Password}). then(res => {
               this.$store.dispatch("login", res.data.data);
               this.$router.push('/');

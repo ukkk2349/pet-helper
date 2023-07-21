@@ -16,15 +16,31 @@
     <div class="pets container-fluid mt-4" id="mainContent">
       <h1 class="setting-title">{{ $t("PetWaitingForAdopt") }}</h1>
       <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <div class="description">
+            {{ $t('DescriptionPetListHomePage') }}
+          </div>
+        </div>
+      </div>
+      <div class="row">
         <template v-for="(pet, index) in pets" :key="pet.PetID">
           <div class="col-lg-4 col-md-4 col-sm-6 col-12 col-item" v-if="index<3">
             <div class="item">
               <div class="box-img">
                 <div class="pet-image cursor-pointer" @click="onViewPetDetail(pet.PetID)">
-                  <img class="img-fluid lazy-loaded" :src="require(`@/assets/images/${pet.PetAvatar}`)" :alt="pet.PetName">
+                  <img 
+                    class="img-fluid lazy-loaded" 
+                    :src="require(`@/assets/images/${pet.PetAvatar}`)" 
+                    :alt="pet.PetName"
+                    :title="pet.PetName"
+                  >
                 </div>
               </div>
               <div class="box-info">
+                <div class="adopt-status" :class="pet.IsAdopted ? 'adopted' : 'not-adopted'">
+                  {{ pet.IsAdopted ? $t('Adopted') : $t('WaitingForAdopting') }}
+                </div>
                 <div class="pet-name cursor-pointer" @click="onViewPetDetail(pet.PetID)">{{ pet.PetName }}</div>
               </div>
             </div>
@@ -44,15 +60,27 @@
       <h1 class="setting-title mb-4">{{ $t('Product') }}</h1>
       <div class="row">
         <template v-for="(product, index) in products" :key="product.ProductID">
-          <div v-if="index<4" class="col-lg-3 col-md-4 col-sm-6 col-12 col-item gutter" style="padding: 0">
+          <div v-if="index<4" class="col-lg-3 col-md-4 col-sm-6 col-12 col-item gutter px-4" style="padding: 0">
             <div class="item">
               <div class="box-img cursor-pointer">
                 <div @click="onViewProductDetail(product.ProductID)">
-                  <img class="img-responsive w-100 lazy-loaded" :src="require(`@/assets/images/product/${product.ProductAvatar}`)" :alt="product.ProductName">
+                  <img 
+                    class="img-responsive w-100 lazy-loaded" 
+                    :src="require(`@/assets/images/product/${product.ProductAvatar}`)" 
+                    :alt="product.ProductName"
+                    :title="product.ProductName"
+                  >
                 </div>
               </div>
               <div class="box-info">
-                <div class="product-name cursor-pointer" @click="onViewProductDetail(product.ProductID)" style="padding: 20px 0 4px 0">{{ product.ProductName }}</div>
+                <div 
+                  class="product-name cursor-pointer" 
+                  @click="onViewProductDetail(product.ProductID)" 
+                  style="padding: 20px 0 4px 0"
+                  :title="product.ProductName"
+                >
+                  {{ product.ProductName }}
+                </div>
                 <br>
                 <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ product.Price }}</p>
                 <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
@@ -99,8 +127,8 @@ export default {
     getPetData() {
       var me = this;
       PetAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.pets = res.data.data;
+        if (res.data.Success) {
+          me.pets = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -112,8 +140,8 @@ export default {
     getProductData() {
       var me = this;
       ProductAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.products = res.data.data;
+        if (res.data.Success) {
+          me.products = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -212,11 +240,12 @@ export default {
     to {transform: translateX(0px); opacity: 1}
   }
   .item {
-    padding: 0px 15px
-  }
+    padding: 0px 15px;
+  } 
   .product .box-img {
     overflow: hidden;
-    height: 300px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
   }
   .box-img img {
     transition: all .8s linear; 

@@ -39,10 +39,23 @@ function error(content) {
 function formatDate(date) {
   if (date && date.length > 0) {
     var d = new Date(date);
-    return d.getDay() + '/' + d.getMonth() + '/' + d.getFullYear();
+    return d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
   } else {
     return "";
   }
 }  
 
-export {success, error, formatDate};
+function formatDateTime(date) {
+  if (date && date.length > 0) {
+    var d = new Date(date);
+    return d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+  } else {
+    return "";
+  }
+}
+
+function formatMoney(val) {
+  return val.toLocaleString('it-IT', {style : 'currency', currency : 'VND'});
+}
+
+export {success, error, formatDate, formatDateTime, formatMoney};

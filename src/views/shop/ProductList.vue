@@ -60,7 +60,7 @@
                 {{ product.ProductName }}
               </div>
               <p style="color: #ff7a00; font-weight: bold; margin-bottom: 0">
-                ${{ product.Price }}
+                {{ formatMoney(product.Price) }}
               </p>
               <span v-if="!product.StateID == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
             </div>
@@ -132,6 +132,7 @@
 
 <script>
 import ProductAPI from '@/api/ProductAPI';
+import { formatMoney } from '@/common/commonFunction';
 
 export default {
   name: "ProductList",
@@ -163,8 +164,8 @@ export default {
     getDataSource() {
       var me = this;
       ProductAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.products = res.data.data;
+        if (res.data && res.data.Success) {
+          me.products = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -181,6 +182,9 @@ export default {
       if (e) {
         this.filter.ProductCategoryID = e.ID;
       }
+    },
+    formatMoney(val) {
+      return formatMoney(val);
     }
   }
 }
@@ -219,7 +223,10 @@ export default {
 }
 .item {
   padding: 0px 15px;
-  width: 200px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  padding: 10px;
+  height: 350px;
+  margin: 10px 20px;
 }
 .col-item {
   float: left;
@@ -228,6 +235,7 @@ export default {
   overflow: hidden;
   height: 200px;
   width: 200px;
+  margin: auto;
 }
 .box-img img {
   transition: all 0.8s linear;

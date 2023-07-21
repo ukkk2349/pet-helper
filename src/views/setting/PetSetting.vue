@@ -13,6 +13,8 @@
           </router-link> -->
           <b-button
             :text="$t('Add')"
+            :showPreIcon="true"
+            preIcon="fa-solid fa-plus"
             class="w-100"
             @click="onClickAddPet"
           >
@@ -72,6 +74,9 @@
               </div>
             </div>
             <div class="box-info">
+              <div class="adopt-status" :class="pet.IsAdopted ? 'adopted' : 'not-adopted'">
+                {{ pet.IsAdopted ? $t('Adopted') : $t('WaitingForAdopting') }}
+              </div>
               <div class="pet-name cursor-pointer" @click="onViewDetail(pet.PetID)">{{
                 pet.PetName
               }}</div>
@@ -104,9 +109,9 @@ export default {
     getDataSource() {
       var me = this;
       PetAPI.getAll().then(res => {
-        if (res.data.success) {
-          me.listPet = res.data.data;
-          me.allPet = res.data.data;
+        if (res.data.Success) {
+          me.listPet = res.data.Data;
+          me.allPet = res.data.Data;
         }
       }, err => {
         console.log(err)
@@ -130,7 +135,7 @@ export default {
     },
     onDeletePet(petID) {
       PetAPI.deleteByID(petID).then(res => {
-        if (res.data.success) {
+        if (res.data.Success) {
           success(this.$t('DeletePetSuccessfully'));
           this.getDataSource()
         }
@@ -140,7 +145,7 @@ export default {
       this.$router.push({ path: '/pet/detail', query: {id: petID}});
     },
     onUpdatePet(petID) {
-      this.$router.push({ path: '/setting/pet/update', query: {id: petID}})
+      this.$router.push({ path: '/setting/pet/update', query: { id: petID }})
     }
   }
 }
@@ -254,19 +259,32 @@ export default {
 .box-img:hover .pet-options .pet-option {
   opacity: 1;
 }
-.box-info .pet-name {
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 28px;
-  display: inline-block;
-  margin-bottom: 10px;
-  color: black;
-  transition: all 0.3s;
-}
-.box-info .pet-name:hover {
-  color: #ff7a00;
-}
-.box-info p {
-  color: #888;
+.box-info {
+  .pet-name {
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 28px;
+    display: inline-block;
+    margin-bottom: 10px;
+    color: black;
+    transition: all 0.3s;
+    &:hover {
+      color: var(--orange);
+    }
+  }
+
+  p {
+    color: #888;
+  }
+
+  .adopt-status {
+    &.adopted {
+      color: var(--orange);
+    }
+
+    &.not-adopted {
+      color: var(--green);
+    }
+  }
 }
 </style>
