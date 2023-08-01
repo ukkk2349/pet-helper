@@ -1,10 +1,12 @@
 <template>
-  Login
   <div class="container">
     <div class="row">
       <div class="col-sm-8 col-lg-6 offset-sm-2 offset-lg-3">
-        <b-validate ref="validateLogin">
-          <div class="form-wrapper">
+        <div class="form-wrapper">
+          <div class="row justify-content-center mb-4">
+            <h2 class="title">{{ $t("LogIn") }}</h2>
+          </div>
+          <b-validate ref="validateLogin">
             <div class="form-group">
               <b-text-box
                 placeholder="abc@gmail.com"
@@ -44,8 +46,8 @@
                 :text="$t('SignUp') + '!'"
               ></b-button>
             </div>
-          </div>
-        </b-validate>
+          </b-validate>
+        </div>
       </div>
     </div>
   </div>
@@ -116,9 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.row {
-  padding-top: 80px;
-}
 .form-wrapper {
   background-color: #faf5ef;
   padding: 5%;

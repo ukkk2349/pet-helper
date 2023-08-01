@@ -124,6 +124,7 @@
   "Save": "Lưu",
   "Today": "Hôm nay",
   "AppointmentWaitingForAccept": "Đang chờ xác nhận",
+  "AppointmentRejected": "Đã từ chối",
   "AppointmentAccepted": "Đã xác nhận",
   "SetAppointmentSuccessfully": "Đặt lịch hẹn thành công",
   "PetHadBeenAdopted": "Bạn nhỏ đã được nhận nuôi rồi",
@@ -138,5 +139,13 @@
   "SubcribeForAdopting": "Đăng ký nhận nuôi",
   "Approve": "Xác nhận",
   "Reject": "Từ chối",
-  "Status": "Trạng thái"
+  "Status": "Trạng thái",
+  "UpdateStatusSuccessfully": "Cập nhật trạng thái thành công",
+  "OrderSuccessfully": "Đặt hàng thành công",
+  "CurrentProvince": "Tỉnh/Thành phố hiện tại",
+  "CurrentDistrict": "Quận/Huyện hiện tại",
+  "CurrentWard": "Phường/Xã hiện tại",
+  "SetAsManager": "Thêm vai trò quản lý",
+  "DeleteRoleManager": "Xoá vai trò quản lý",
+  "UpdateUserSuccessfully": "Cập nhật người dùng thành công"
 }

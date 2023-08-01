@@ -14,6 +14,14 @@ class CartAPI extends BaseAPI {
     return this.api.get(`${this.controller}/get-cart-item`);
   }
 
+  /**
+   * Đặt hàng
+   * @returns true / false
+   */
+  order() {
+    return this.api.get(`${this.controller}/order`);
+  }
+
 }
 
 export default new CartAPI();

@@ -38,6 +38,9 @@
         <div v-else-if="headers[data.columnIndex].DataType == dataType.DateTime" class="cell-wrapper" :title="formatDateTime(data.value)">
           {{ formatDateTime(data.value) }}
         </div>
+        <div v-else-if="headers[data.columnIndex].DataType == dataType.Date" class="cell-wrapper" :title="formatDate(data.value)">
+          {{ formatDate(data.value) }}
+        </div>
         <div v-else class="cell-wrapper wrap-text" :title="data.value">
           {{ data.value }}
         </div>
@@ -77,7 +80,7 @@ import {
   DxPager,
   DxPaging
 } from 'devextreme-vue/data-grid';
-import {formatMoney, formatDateTime} from '@/common/commonFunction';
+import {formatMoney, formatDateTime, formatDate} from '@/common/commonFunction';
 
 export default {
   name: "BaseGrid",
@@ -126,6 +129,9 @@ export default {
     },
     formatDateTime(val) {
       return formatDateTime(val);
+    },
+    formatDate(val) {
+      return formatDate(val);
     }
   }
 }

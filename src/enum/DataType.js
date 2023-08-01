@@ -3,7 +3,8 @@ const DataType = Object.freeze({
   Number: 1,
   Custom: 2,
   Money: 3,
-  DateTime: 4
+  DateTime: 4,
+  Date: 5
 });
 
 export default DataType;

@@ -8,6 +8,7 @@ import SettingList from '@/views/setting/SettingList';
 import PetSetting from '@/views/setting/PetSetting';
 import PetForm from '@/views/setting/PetForm';
 import AppointmentSetting from '@/views/setting/AppointmentSetting';
+import UserSetting from '@/views/setting/UserSetting';
 
 import PetDetail from '@/views/shop/PetDetail';
 import ProductDetail from '@/views/shop/ProductDetail';
@@ -111,6 +112,13 @@ const routes = [
         component: AppointmentSetting,
         meta: {
             title: 'Đăng ký nhận nuôi'
+        }
+    },
+    {
+        path: '/setting/user-manager',   
+        component: UserSetting,
+        meta: {
+            title: 'Cộng đồng'
         }
     },
     {
