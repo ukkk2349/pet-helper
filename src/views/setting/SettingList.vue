@@ -97,6 +97,9 @@ export default {
         case 2:
           this.$router.push('/setting/product');
           break;
+        case 3:
+          this.$router.push('/setting/user-manager');
+          break;
         case 4: 
           this.$router.push('/setting/appointment-manager');
           break;

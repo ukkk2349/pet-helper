@@ -51,6 +51,7 @@
                   class="submit-button"
                   :text="$t('ProceedToCheckout')"
                   :disabled="dataSource.length < 1"
+                  @click="onOrder"
                 />
               </div>
             </div>
@@ -65,6 +66,7 @@
 import DataType from '@/enum/DataType';
 import CartAPI from '@/api/CartAPI';
 import { formatMoney } from '@/common/commonFunction';
+import { success } from '@/common/commonFunction';
 
 export default {
   name: "CartUser",
@@ -121,6 +123,14 @@ export default {
     },
     formatMoney(val) {
       return formatMoney(val);
+    },
+    onOrder() {
+      CartAPI.order().then(res => {
+        if (res.data && res.data.Success) {
+          success(this.$t('OrderSuccessfully'));
+          this.$router.push('/')
+        }
+      })
     }
   }
 }

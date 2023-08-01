@@ -28,11 +28,13 @@
               :id="'approveIcon' + data.AppointmentID"
               v-if="data.StatusID == 1"
               icon="fa-solid fa-check"
+              @click="onSetStatus(data, 2)"
             />
             <b-icon
               :id="'rejectIcon' + data.AppointmentID"
               v-if="data.StatusID == 1"
               icon="fa-solid fa-xmark"
+              @click="onSetStatus(data, 3)"
             />
           </div>
           <b-tooltip
@@ -52,7 +54,8 @@
 <script>
 import DataType from '@/enum/DataType';
 import AppointmentAPI from '@/api/AppointmentAPI';
-
+import { success } from '@/common/commonFunction';
+import ModelState from '@/enum/ModelState';
 export default {
   name: "AppointmentSetting",
   data() {
@@ -63,6 +66,12 @@ export default {
           FieldName: "FullName",
           Caption: this.$t('FullName'),
           DataType: DataType.Custom,
+          Width: 150
+        },
+        {
+          FieldName: "PhoneNumber",
+          Caption: this.$t('PhoneNumber'),
+          DataType: DataType.Default,
           Width: 150
         },
         {
@@ -86,15 +95,35 @@ export default {
     }
   },
   created() {
-    AppointmentAPI.getAll().then(res => {
-      if (res.data && res.data.Success) {
-        this.dataSource = res.data.Data;
-      }
-    })
+    this.getData()
   },
   methods: {
+    getData() {
+      AppointmentAPI.getAll().then(res => {
+        if (res.data && res.data.Success) {
+          this.dataSource = res.data.Data;
+        }
+      });
+    },
     onClickViewPetDetail(petID) {
       this.$router.push({ path: '/pet/detail', query: {id: petID}});
+    },
+    onSetStatus(item, statusID) {
+      item.State = ModelState.Update;
+      item.StatusID = statusID;
+      if (statusID == 2) {
+        item.StatusName = this.$t('AppointmentAccepted');
+      } else {
+        item.StatusName = this.$t('AppointmentRejected');
+      }
+      AppointmentAPI.save(item).then(res => {
+        if (res.data && res.data.Success) {
+          success(this.$t('UpdateStatusSuccessfully'));
+          this.getData();
+        }
+      }, err => {
+        console.log(err);
+      })
     }
   }
 }
