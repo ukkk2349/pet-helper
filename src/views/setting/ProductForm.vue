@@ -10,7 +10,7 @@
             :style="{ 'background-image': `url(${previewImage})` }"
           >
           </div>
-          <div class="d-flex flex-column align-items-start mb-3">
+          <div v-if="modeForm == ModelState.Insert" class="d-flex flex-column align-items-start mb-3">
             <label class="images bold text-start">{{ $t('Avatar') }} <span class="require"></span></label>
             <div class="d-flex align-items-center">
               <label for="avatar-image" class="choose-image-button cursor-pointer mb-0">{{ $t('ChooseImage') }}</label>
@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <div class="d-flex flex-column align-items-start mb-3">
+          <div v-if="modeForm == ModelState.Insert" class="d-flex flex-column align-items-start mb-3">
             <label class="images bold text-start">{{ $t('Images') }} <span class="require"></span></label>
             <div class="d-flex align-items-center">
               <label for="images" class="choose-image-button cursor-pointer mb-0">{{ $t('ChooseImage') }}</label>
@@ -92,6 +92,7 @@
           <div class="row">
             <div class="col">
               <b-select-box
+                v-model="product.StateID"
                 :items="dataCbbState"
                 displayExpr="Name"
                 valueExpr="ID"
@@ -118,6 +119,7 @@
           <div class="row">
             <div class="col">
               <b-select-box
+                v-model="product.ProductCategoryID"
                 :items="dataCbbProductCategory"
                 displayExpr="Name"
                 valueExpr="ID"
@@ -148,7 +150,7 @@
                 :text="$t('Add')"
                 style="width: 80px"
                 class="ml-2"
-                @click="onAddProduct"
+                @click="onSave"
               />
               <b-button
                 :text="$t('Cancel')"
@@ -169,6 +171,7 @@
 import Product from '@/model/Product';
 import ProductAPI from '@/api/ProductAPI';
 import { success } from '@/common/commonFunction';
+import ModelState from '@/enum/ModelState';
 
 export default {
   name: "ProductForm",
@@ -201,16 +204,34 @@ export default {
           ID: 3,
           Name: this.$t('CareSupply')
         },
-      ]
+      ],
+      modeForm: 0,
+      productID: null,
+      ModelState
+    }
+  },
+  created() {
+    this.product = new Product();
+    this.modeForm = this.$route.query.mode;
+    this.productID = this.$route.query.id;
+    if (this.productID) {
+      ProductAPI.getByID(this.productID).then(res => {
+        if (res.data.Success) {
+          this.product = res.data.Data;
+        }
+      })
     }
   },
   methods: {
     onCancel() {
       this.$router.push('/setting/product');
     },
-    onAddProduct() {
+    onSave() {
       if (this.$refs.validateAddProduct.validate() && this.validateAvatar()) {
-        this.product.Images = this.images.join("\\");
+        if (this.modeForm == ModelState.Insert) {
+          this.product.Images = this.images.join("\\");
+        }
+        this.product = this.modeForm;
         ProductAPI.save(this.product).then(res => {
           if (res && res.data && res.data.Success) {
             success(this.$t('AddProductSuccessfully'));
@@ -223,7 +244,7 @@ export default {
      * validate ảnh đại diện là bắt buộc
      */
      validateAvatar() {
-      if (this.previewImage) {
+      if (this.modeForm == ModelState.Update || this.previewImage) {
         return true;
       } else {
         this.errorMsg = this.$t('PleaseChooseAvatar');

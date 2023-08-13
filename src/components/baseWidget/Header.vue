@@ -115,16 +115,27 @@
         <div class="search-top">
           <h3 class="search-title">{{ $t("SearchDescription") }}</h3>
         </div>
-        <div class="search-form">
-          <input
+        <div class="search-form d-flex">
+          <!-- <input
             type="text"
             class="search-input"
             :placeholder="$t('ContentSearch')"
             ref="search"
-            v-model="search_request"
+            v-model="searchText"
             autofocus
+          /> -->
+          <b-text-box
+            class="w-100"
+            v-model="searchText"
+            :placeholder="$t('ContentSearch')"
+            :isSearchTextBox="true"
+            @valueChanged="onSearch"
           />
-          <button type="button" class="search-button">{{ $t("Search") }}</button>
+          <b-button
+            class="search-button ml-2"
+            :text="$t('Search')"
+          />
+          <!-- <button type="button" class="search-button">{{ $t("Search") }}</button> -->
         </div>
         <div class="back">
           <i class="fa-solid fa-xmark" type="button" @click="closeSearch"></i>
@@ -141,7 +152,7 @@ export default {
     return {
       userId: null,
       openSearchForm: false,
-      search_request: "",
+      searchText: "",
       message: null,
       isManager: false,
       productQuantity: 0,
@@ -178,6 +189,12 @@ export default {
      */
     closeSearch() {
       this.openSearchForm = false;
+    },
+    /**
+     * Tìm kiếm
+     */
+    onSearch() {
+
     },
     /**
      * Chọn item trong mục Cửa hàng
@@ -370,16 +387,7 @@ router-link {
   border-bottom: 2px solid var(--input-focus-border-color);
 }
 .search-area .search-form .search-button {
-  text-transform: uppercase;
-  position: absolute;
-  top: -1px;
-  right: 0;
-  color: #666;
-  font-size: 22px;
-  height: 43px;
-  text-align: center;
-  font-weight: 800;
-  border: none;
+  width: 100px;
 }
 .search-area .back {
   position: fixed;

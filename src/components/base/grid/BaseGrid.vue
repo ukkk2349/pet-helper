@@ -53,7 +53,7 @@
         fixed-position="right"
         css-class="option-column"
         cell-template="cell-option-column"
-        :width=" 100"
+        :width="optionColumnWidth"
       />
 
       <template #cell-option-column="{ data }">
@@ -115,6 +115,10 @@ export default {
     isShowOptionColumn: {
       type: Boolean,
       default: false
+    },
+    optionColumnWidth: {
+      type: Number,
+      default: 100
     }
   },
   data() {
@@ -147,7 +151,7 @@ export default {
 <style lang="scss">
 .dx-row.dx-data-row.dx-column-lines td {
   vertical-align: middle;
-  border-bottom: var(--border-color);
+  // border-bottom: var(--border-color);
 }
 .dx-widget.dx-visibility-change-handler {
   width: 100%;
@@ -173,7 +177,33 @@ export default {
   border: none !important
 }
 
-.dx-datagrid-rowsview .dx-data-row .dx-cell-modified .dx-highlight-outline::after {  
-    border-color: transparent;  
+.dx-datagrid-rowsview {
+  .dx-data-row .dx-cell-modified .dx-highlight-outline::after {  
+      border-color: transparent;  
+  }
+  .dx-datagrid-table.dx-datagrid-table-fixed  {
+    .dx-row.dx-data-row {
+      td:nth-last-child(2) {
+        border-right: none;
+      }
+      td:last-child {
+        border-left: none;
+      }
+    }
+  }
 }  
+
+.dx-datagrid-table.dx-datagrid-table-fixed.dx-pointer-events-none {  
+  .dx-row.dx-header-row > td:first-child {
+    border-right: none;
+  }
+  .dx-row.dx-data-row {
+    td:first-child {
+      border-right: none;
+    } 
+    td:last-child {
+      border-left: none;
+    } 
+  }
+}
 </style>

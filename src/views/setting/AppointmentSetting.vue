@@ -22,6 +22,15 @@
           </div>
         </template>
 
+        <template #StatusName="{ data }">
+          <div 
+            :class="['custom-column status-column', data.StatusID == appointmentStatus.WaitingForAccept ? 'waiting' : data.StatusID == appointmentStatus.Accepted ? 'accepted' : 'declined' ]"
+            :title="data.StatusName"
+          >
+            {{ data.StatusName }}
+          </div>
+        </template>
+
         <template #customOptionColumn="{ data }">
           <div class="d-flex justify-content-around">
             <b-icon
@@ -53,6 +62,7 @@
 
 <script>
 import DataType from '@/enum/DataType';
+import AppointmentStatus from '@/enum/AppointmentStatus';
 import AppointmentAPI from '@/api/AppointmentAPI';
 import { success } from '@/common/commonFunction';
 import ModelState from '@/enum/ModelState';
@@ -89,9 +99,10 @@ export default {
         {
           FieldName: "StatusName",
           Caption: this.$t('Status'),
-          DataType: DataType.Default
+          DataType: DataType.Custom
         },
-      ]
+      ],
+      appointmentStatus: AppointmentStatus
     }
   },
   created() {
@@ -135,6 +146,22 @@ export default {
 
   &:hover {
     color: var(--orange);
+  }
+}
+.status-column {
+  color: var(--white);
+  text-align: center;
+  padding: 4px;
+  border-radius: 4px;
+
+  &.declined {
+    background-color: var(--red);
+  }
+  &.waiting {
+    background-color: var(--blue);
+  }
+  &.accepted {
+    background-color: var(--green);
   }
 }
 </style>

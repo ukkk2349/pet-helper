@@ -2,7 +2,7 @@
   <div class="select-box-wrapper" :class="[{'dis-flex justify-content-between' : !verticalLabel}, {'has-label': isShowLabel}]">
     <div v-if="isShowLabel" :for="id" class="text-box-label mb-1 font-weight-bold">{{ label }} <span v-if="require" class="require"></span></div>
     <DxSelectBox
-      :value="modelValue"
+      v-model:value="valueInput"
       :class="[{'show-border': showBorder}, { 'no-border': !showBorder }  ]"
       :items="items"
       :input-attr="{ 'aria-label': 'Product With Placeholder' }"
@@ -105,7 +105,12 @@ export default {
   },
   data() {
     return {
-      
+    }
+  },
+  computed: {
+    valueInput: {
+      get() {return this.modelValue},
+      set(val) {this.$emit('update:modelValue', val)}
     }
   },
   methods: {
@@ -115,7 +120,7 @@ export default {
      */
     onSelectionChanged(e) {
       this.$emit('onSelectionChanged', e.selectedItem);
-      this.$emit('update:modelValue', e[this.valueExpr]);
+      this.$emit('update:modelValue', e.selectedItem[this.valueExpr]);
     }
   }
 }

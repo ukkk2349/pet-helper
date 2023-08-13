@@ -90,6 +90,7 @@
 <script>
 import ProductAPI from '@/api/ProductAPI';
 import { success } from '@/common/commonFunction';
+import ModelState from '@/enum/ModelState';
 
 export default {
   name: "ProductSetting",
@@ -119,13 +120,13 @@ export default {
      * Mở form thêm sản phẩm
      */
     onClickAddProduct() {
-      this.$router.push('/setting/product/add');
+      this.$router.push({path: '/setting/product/form', query: {mode: ModelState.Insert}});
     },
     onViewDetail(productID) {
       this.$router.push({ path: '/product/detail', query: {id: productID}});
     },
     onUpdateProduct(productID) {
-      this.$router.push({ path: '/setting/product/update', query: {id: productID}})
+      this.$router.push({ path: '/setting/product/form', query: {mode: ModelState.Update, id: productID}})
     },
     onDeleteProduct(productID) {
       ProductAPI.deleteByID(productID).then(res => {
