@@ -82,7 +82,7 @@
                   {{ product.ProductName }}
                 </div>
                 <br>
-                <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">${{ product.Price }}</p>
+                <p style="color: #FF7A00; font-weight: bold; margin-bottom: 0">{{ formatMoney(product.Price) }}</p>
                 <span v-if="!product.State == 2" style="color: red; font-weight: bold">{{ $t('OutOfStock') }}</span>
               </div>
             </div>
@@ -104,6 +104,7 @@
 <script>
 import PetAPI from '@/api/PetAPI';
 import ProductAPI from '@/api/ProductAPI';
+import { formatMoney } from '@/common/commonFunction';
 
 export default {
   name: "HomePage",
@@ -175,6 +176,9 @@ export default {
         default:
           break;
       }
+    },
+    formatMoney(val) {
+      return formatMoney(val);
     }
   }
 }

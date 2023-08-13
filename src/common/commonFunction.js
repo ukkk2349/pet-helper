@@ -48,7 +48,8 @@ function formatDate(date) {
 function formatDateTime(date) {
   if (date && date.length > 0) {
     var d = new Date(date);
-    return d.getHours() + ':' + d.getMinutes() + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
+    let minute = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes();
+    return d.getHours() + ':' + minute + ' ' + d.getDate() + '/' + (d.getMonth() + 1) + '/' + d.getFullYear();
   } else {
     return "";
   }

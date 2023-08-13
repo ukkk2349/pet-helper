@@ -31,7 +31,13 @@ export const store = createStore({
       state.cart = 0;
     },
     addToCart(state) {
-      state.cart == state.cart != null ? state.cart++ : 0;
+      state.cart = state.cart != null ? state.cart + 1 : 0;
+    },
+    moveFromCart(state, quantity) {
+      state.cart = state.cart != null ? state.cart - quantity : 0;
+    },
+    order(state) {
+      state.cart = 0;
     }
   },
   actions: {
@@ -57,6 +63,12 @@ export const store = createStore({
     },
     addToCart({commit}) {
       commit('addToCart');
+    },
+    moveFromCart({commit}, quantity) {
+      commit('moveFromCart', quantity);
+    },
+    order({commit}) {
+      commit('order');
     }
   }
 })

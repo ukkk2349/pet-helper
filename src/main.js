@@ -27,6 +27,7 @@ import DateBox from '@/components/base/DateBox.vue';
 import Checkbox from '@/components/base/Checkbox.vue';
 import BaseGrid from '@/components/base/grid/BaseGrid.vue';
 import Validate from '@/components/base/Validate.vue';
+import BasePopup from '@/components/base/Popup.vue';
 import SettingLayout from '@/components/layout/SettingLayout.vue';
 import {
   DxValidator,
@@ -62,5 +63,6 @@ createApp(App)
 .component('b-check-box', Checkbox)
 .component('b-grid', BaseGrid)
 .component('b-validate', Validate)
+.component('b-popup', BasePopup)
 .component('b-setting-layout', SettingLayout)
 .mount('#app')

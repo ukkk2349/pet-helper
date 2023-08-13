@@ -19,7 +19,7 @@ class CartAPI extends BaseAPI {
    * @returns true / false
    */
   order() {
-    return this.api.get(`${this.controller}/order`);
+    return this.api.post(`${this.controller}/order`);
   }
 
 }

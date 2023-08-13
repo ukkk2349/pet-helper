@@ -43,5 +43,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.check-box-label span {
+  line-height: 24px;
+}
 </style>

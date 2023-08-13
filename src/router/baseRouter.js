@@ -9,6 +9,7 @@ import PetSetting from '@/views/setting/PetSetting';
 import PetForm from '@/views/setting/PetForm';
 import AppointmentSetting from '@/views/setting/AppointmentSetting';
 import UserSetting from '@/views/setting/UserSetting';
+import OrderSetting from '@/views/setting/OrderSetting';
 
 import PetDetail from '@/views/shop/PetDetail';
 import ProductDetail from '@/views/shop/ProductDetail';
@@ -66,14 +67,7 @@ const routes = [
         }
     },
     {
-        path: '/setting/pet/add',   
-        component: PetForm,
-        meta: {
-            title: 'Thiết lập thú cưng'
-        }
-    },
-    {
-        path: '/setting/pet/update',   
+        path: '/setting/pet/form',   
         component: PetForm,
         meta: {
             title: 'Thiết lập thú cưng'
@@ -101,7 +95,7 @@ const routes = [
         }
     },
     {
-        path: '/setting/product/add',   
+        path: '/setting/product/form',   
         component: ProductForm,
         meta: {
             title: 'Thiết lập thú cưng'
@@ -119,6 +113,13 @@ const routes = [
         component: UserSetting,
         meta: {
             title: 'Cộng đồng'
+        }
+    },
+    {
+        path: '/setting/order-manager',   
+        component: OrderSetting,
+        meta: {
+            title: 'Đơn hàng'
         }
     },
     {

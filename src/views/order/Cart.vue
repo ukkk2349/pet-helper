@@ -13,6 +13,8 @@
                 :dataSource="dataSource"
                 keyExpr="CartID"
                 :noDataText="$t('CartEmpty')"
+                :isShowOptionColumn="true"
+                :optionColumnWidth="50"
               >
                 <template #ProductName="{ data }">
                   <div class="product-name-wrapper d-flex">
@@ -30,10 +32,24 @@
                     </div>
                   </div>
                 </template>
+
+                <template #customOptionColumn="{ data }">
+                  <div class="d-flex justify-content-around">
+                    <b-icon
+                      :id="'deleteCartItem' + data.CartID"
+                      icon="fa-solid fa-xmark"
+                      @click="onDeleteItem(data)"
+                    />
+                  </div>
+                  <b-tooltip
+                    :text="$t('DeleteProduct')"
+                    :target="'#deleteCartItem' + data.CartID"
+                  />
+                </template>
               </b-grid>
             </div>
             <div class="cart-check">
-              <h2 class="cart-title text-start">{{ $t('CartTotal') }}</h2>
+              <h2 class="cart-title text-start">{{ $t('Payment') }}</h2>
               <table class="total-checkout w-100 text-start">
                 <tbody>
                   <tr>
@@ -47,18 +63,30 @@
                 </tbody>
               </table>
               <div class="submit-section text-start">
-                <b-button
+                <!-- <b-button
                   class="submit-button"
                   :text="$t('ProceedToCheckout')"
                   :disabled="dataSource.length < 1"
                   @click="onOrder"
-                />
+                /> -->
+                <div class="description mb-4 d-flex justify-content-center">
+                  <b-icon icon="fa-regular fa-comment"></b-icon>
+                  <span>{{ $t('CartBeforePayDescription') }}</span>
+                </div>
+                <div ref="paypal"></div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <b-popup
+      :popupVisible="popupVisible"
+      :title="$t('Notification')"
+      :content="$t('OrderSuccessfullyAndRedirect', {second: secondCountdown})"
+      @close="onClosePopup"
+    />
   </div>
 </template>
 
@@ -96,7 +124,9 @@ export default {
           DataType: DataType.Money
         }
       ],
-      total: 0
+      total: 0,
+      secondCountdown: 5,
+      popupVisible: false
     }
   },
   created() {
@@ -113,6 +143,13 @@ export default {
       console.log(err);
     })
   },
+  mounted() {
+    const script = document.createElement("script");
+    script.src =
+      "https://www.paypal.com/sdk/js?client-id=ARNRNvgJTH0oaRUrQUC-p-MgCXzIOl5T6um6YqdW7U9mkwzV-ZkfCtp9c0QH6dRWArJY85Yh3rLCT5Vu";
+    script.addEventListener("load", this.setLoaded);
+    document.body.appendChild(script);
+  },
   methods: {
     /**
      * Xem chi tiết sản phẩm
@@ -124,13 +161,68 @@ export default {
     formatMoney(val) {
       return formatMoney(val);
     },
+    onDeleteItem(cartItem) {
+      CartAPI.deleteByID(cartItem.CartID).then(res => {
+        if (res.data && res.data.Success) {
+          this.dataSource = this.dataSource.filter(x => x.CartID != cartItem.CartID);
+          success(this.$t('DeleteCartItemSuccessfully'));
+          this.$store.dispatch('moveFromCart', cartItem.Quantity);
+        }
+      }, err => {
+        console.log(err);
+      })
+    },
     onOrder() {
       CartAPI.order().then(res => {
         if (res.data && res.data.Success) {
-          success(this.$t('OrderSuccessfully'));
-          this.$router.push('/')
+          this.dataSource = [];
+          this.$store.dispatch('order');
+          this.showPopupOrderSuccessfully();
         }
       })
+    },
+    showPopupOrderSuccessfully() {
+      this.popupVisible = true;
+      let countdown = setInterval(() => {
+        this.secondCountdown --;
+      }, 1000);
+
+      setTimeout(() => {
+        clearInterval(countdown);
+        this.$router.push('/');
+      }, 5000);
+    },
+    onClosePopup() {
+      this.popupVisible = false;
+    },
+    setLoaded: function() {
+      this.loaded = true;
+      window.paypal
+        .Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [
+                {
+                  description: this.$t('Cart'),
+                  amount: {
+                    currency_code: "USD",
+                    value: Math.round(this.total / 230) / 100
+                  }
+                }
+              ]
+            });
+          },
+          onApprove: async (data, actions) => {
+            const order = await actions.order.capture();
+
+            console.log(order);
+            this.onOrder();
+          },
+          onError: err => {
+            console.log(err);
+          }
+        })
+        .render(this.$refs.paypal);
     }
   }
 }
@@ -287,6 +379,16 @@ export default {
   }
   .product-name:hover {
     color: var(--orange);
+  }
+}
+
+.submit-section {
+  .description {
+    gap: 8px;
+  }
+
+  span {
+    line-height: 24px;
   }
 }
 </style>

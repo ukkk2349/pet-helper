@@ -6,8 +6,9 @@
         :dataSource="dataSource"
         keyExpr="UserID"
         :isShowOptionColumn="true"
+        :optionColumnWidth="50"
       >
-      <template #customOptionColumn="{ data }">
+        <template #customOptionColumn="{ data }">
           <div v-if="isAdmin" class="d-flex justify-content-around">
             <b-icon
               :id="'approveUser' + data.UserID"

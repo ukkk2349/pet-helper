@@ -92,6 +92,7 @@
 <script>
 import PetAPI from '@/api/PetAPI';
 import { success } from '@/common/commonFunction';
+import ModelState from '@/enum/ModelState';
 
 export default {
   name: "PetSetting",
@@ -131,7 +132,7 @@ export default {
      * Hiển thị form thêm thú cưng
      */
     onClickAddPet() {
-      this.$router.push('pet/add');
+      this.$router.push({ path: '/setting/pet/form', query: { mode: ModelState.Insert }})
     },
     onDeletePet(petID) {
       PetAPI.deleteByID(petID).then(res => {
@@ -145,7 +146,7 @@ export default {
       this.$router.push({ path: '/pet/detail', query: {id: petID}});
     },
     onUpdatePet(petID) {
-      this.$router.push({ path: '/setting/pet/update', query: { id: petID }})
+      this.$router.push({ path: '/setting/pet/form', query: { id: petID, mode: ModelState.Update }})
     }
   }
 }

@@ -208,6 +208,7 @@
 import axios from 'axios';
 import UserAPI from '@/api/UserAPI';
 import User from '@/model/User';
+import ModelState from '@/enum/ModelState';
 
 export default {
   name: "SignUp",
@@ -251,7 +252,7 @@ export default {
     onSelectProvince(e) {
       if (e) {
         this.user.CurrentProvinceID = e.ID;
-        this.user.CurrentDistrictName = e.Name;
+        this.user.CurrentProvinceName = e.Name;
         this.dataCbbDistrict = e.Districts;
       }
     },
@@ -290,10 +291,11 @@ export default {
     onSignUp() {
       if (this.$refs.validateSignInForm.validate()) {
         this.user.GenderID = 1;
+        this.user.State = ModelState.Insert;
         UserAPI.save(this.user).then(res => {
           if (res.data.Success) {
             UserAPI.signIn({UserName: this.user.PhoneNumber, Password: this.user.Password}). then(res => {
-              this.$store.dispatch("login", res.data.data);
+              this.$store.dispatch("login", res.data.Data);
               this.$router.push('/');
             }, err => {
               console.log(err);

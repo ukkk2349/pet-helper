@@ -2,7 +2,7 @@
   <div class="container">
     <div class="col-sm-8 col-lg-6 offset-sm-2 offset-lg-3">
       <div class="form-wrapper">
-        <h1 class="setting-title">{{ $t('AddPet') }}</h1>
+        <h1 class="setting-title">{{ modeForm == modelState.Insert ? $t('AddPet') : $t('UpdatePet') }}</h1>
         <b-validate ref="validateAddPet">
           <div
             v-if="previewImage != null"
@@ -10,7 +10,7 @@
             :style="{ 'background-image': `url(${previewImage})` }"
           >
           </div>
-          <div class="d-flex flex-column align-items-start mb-3">
+          <div v-if="modeForm == modelState.Insert" class="d-flex flex-column align-items-start mb-3">
             <label class="images bold text-start">{{ $t('Avatar') }} <span class="require"></span></label>
             <div class="d-flex align-items-center">
               <label for="avatar-image" class="choose-image-button cursor-pointer mb-0">{{ $t('ChooseImage') }}</label>
@@ -27,7 +27,7 @@
             </div>
           </div>
 
-          <div class="d-flex flex-column align-items-start mb-3">
+          <div v-if="modeForm == modelState.Insert" class="d-flex flex-column align-items-start mb-3">
             <label class="images bold text-start">{{ $t('Images') }} <span class="require"></span></label>
             <div class="d-flex align-items-center">
               <label for="images" class="choose-image-button cursor-pointer mb-0">{{ $t('ChooseImage') }}</label>
@@ -69,6 +69,8 @@
           <div class="row">
             <div class="col">
               <b-select-box
+                :key="1"
+                v-model="pet.SpeciesID"
                 :items="dataCbbSpecies"
                 displayExpr="Name"
                 valueExpr="ID"
@@ -95,6 +97,8 @@
           <div class="row">
             <div class="col">
               <b-select-box
+                :key="2"
+                v-model="pet.HealthStateID"
                 :items="dataCbbHealthState"
                 displayExpr="Name"
                 valueExpr="ID"
@@ -107,14 +111,20 @@
             </div>
           </div>
 
+          <div class="row" v-if="modeForm == modelState.Update">
+            <div class="col">
+              <b-check-box v-model="pet.IsAdopted" :label="$t('Adopted')"/>
+            </div>
+          </div>
+
           <small id="message" style="color: red; font-weight: bold">{{ errorMsg }}</small>
           <div class="row mt-4">
             <div class="col d-flex flex-row-reverse justify-content-start">
               <b-button
-                :text="$t('Add')"
+                :text="$t('Save')"
                 style="width: 80px"
                 class="ml-2"
-                @click="onAddPet"
+                @click="onSave"
               />
               <b-button
                 :text="$t('Cancel')"
@@ -135,6 +145,7 @@
 import Pet from '@/model/Pet';
 import PetAPI from '@/api/PetAPI';
 import { success } from '@/common/commonFunction';
+import ModelState from '@/enum/ModelState';
 
 export default {
   name: "PetForm",
@@ -176,11 +187,14 @@ export default {
           ID: 3,
           Name: this.$t('BeingTreated')
         },
-      ]
+      ],
+      modeForm: 0,
+      modelState: ModelState
     }
   },
   created() {
     this.pet = new Pet();
+    this.modeForm = this.$route.query.mode;
     this.petID = this.$route.query.id;
     if (this.petID) {
       PetAPI.getByID(this.petID).then(res => {
@@ -214,9 +228,12 @@ export default {
     /**
      * Thêm thú cưng mới
      */
-    onAddPet() {     
+    onSave() {     
       if (this.$refs.validateAddPet.validate() && this.validateAvatar()) {
-        this.pet.Images = this.images.join("\\");
+        if (this.modeForm == ModelState.Insert) {
+          this.pet.Images = this.images.join("\\");
+        }
+        this.pet.State = this.modeForm;
         PetAPI.save(this.pet).then(res => {
           if (res && res.data && res.data.Success) {
             success(this.$t('AddPetSuccessfully'));
@@ -235,7 +252,7 @@ export default {
      * validate ảnh đại diện là bắt buộc
      */
     validateAvatar() {
-      if (this.previewImage) {
+      if (this.modeForm == ModelState.Update || this.previewImage) {
         return true;
       } else {
         this.errorMsg = this.$t('PleaseChooseAvatar');
