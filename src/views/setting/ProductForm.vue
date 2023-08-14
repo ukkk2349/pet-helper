@@ -235,7 +235,9 @@ export default {
         ProductAPI.save(this.product).then(res => {
           if (res && res.data && res.data.Success) {
             success(this.$t('AddProductSuccessfully'));
-            this.$router.push('/setting/product')
+            setTimeout(() => {
+              this.$router.push('/setting/product')
+            }, 1000);
           }
         })
       }

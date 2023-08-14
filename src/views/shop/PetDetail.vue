@@ -126,6 +126,10 @@ export default {
      * Đặt lịch hẹn xem và nhận nuôi
      */
     onSetAppointment() {
+      if (!this.$store.getters.isAuthenticated) {
+        this.$router.push('/sign-in');
+        return;
+      }
       this.$router.push({ path: '/appointment', query: {id: this.petID}});
     }
   }

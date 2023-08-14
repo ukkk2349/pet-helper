@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HomePage from '@/views/HomePage';
 import About from '@/views/About';
+import SearchResult from '@/views/SearchResult';
 import LogIn from '@/views/account/Login';
 import SignUp from '@/views/account/SignUp';
 import SettingList from '@/views/setting/SettingList';
@@ -36,6 +37,13 @@ const routes = [
         component: About,
         metat: {
             title: "Giới thiệu"
+        }
+    },
+    {
+        path: '/search-result',
+        component: SearchResult,
+        metat: {
+            title: "Kết quả tìm kiếm"
         }
     },
     {

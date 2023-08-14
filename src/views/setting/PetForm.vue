@@ -237,7 +237,9 @@ export default {
         PetAPI.save(this.pet).then(res => {
           if (res && res.data && res.data.Success) {
             success(this.$t('AddPetSuccessfully'));
-            this.$router.push('/setting/pet')
+            setTimeout(() => {
+              this.$router.push('/setting/pet')
+            }, 1000);
           }
         })
       }

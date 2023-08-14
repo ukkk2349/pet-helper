@@ -142,6 +142,10 @@ export default {
      * Thêm vào giỏ hàng
      */
     addToCart() {
+      if (!this.$store.getters.isAuthenticated) {
+        this.$router.push('/sign-in');
+        return;
+      }
       var cart = new Cart();
       cart.Price = this.product.Price;
       cart.ProductID = this.productID;
