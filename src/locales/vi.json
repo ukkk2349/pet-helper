@@ -1,14 +1,14 @@
 {
   "message": "hello i18n !!",
   "Search": "Tìm kiếm",
-  "SearchDescription": "Bắt đầu tìm kiếm và ấn Enter",
+  "SearchDescription": "Bắt đầu tìm kiếm",
   "LogIn": "Đăng nhập",
   "SignUp": "Đăng ký",
   "LogOut": "Đăng xuất",
   "Shop": "Cửa hàng",
   "AboutUs": "Giới thiệu",
   "Home": "Trang chủ",
-  "ContentSearch": "Tên sản phẩm, chủng loại,...",
+  "ContentSearch": "Tên thú nuôi, tên sản phẩm,...",
   "Pet": "Thú cưng",
   "Food": "Thức ăn",
   "Cart": "Giỏ hàng",
@@ -161,5 +161,6 @@
   "Processing": "Đang xử lý",
   "Shipping": "Đang giao hàng",
   "Shipped": "Đã giao hàng",
-  "UpdateOrderSucessfully": "Cập nhật đơn hàng thành công"
+  "UpdateOrderSucessfully": "Cập nhật đơn hàng thành công",
+  "SearchResult": "Kết quả tìm kiếm cho \"{value}\""
 }

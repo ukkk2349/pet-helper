@@ -12,7 +12,7 @@ export const store = createStore({
     isAdmin: Boolean(parseInt(localStorage.getItem('isAdmin'))) || null,
     isManager: Boolean(parseInt(localStorage.getItem('isManager'))) || null,
     user: null,
-    cart: localStorage.getItem('cart') || 1
+    cart: localStorage.getItem('cart') || 0
   },
   getters: getters,
   mutations: {

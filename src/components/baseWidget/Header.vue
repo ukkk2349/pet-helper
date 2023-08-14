@@ -129,11 +129,11 @@
             v-model="searchText"
             :placeholder="$t('ContentSearch')"
             :isSearchTextBox="true"
-            @valueChanged="onSearch"
           />
           <b-button
             class="search-button ml-2"
             :text="$t('Search')"
+            @click="onSearch"
           />
           <!-- <button type="button" class="search-button">{{ $t("Search") }}</button> -->
         </div>
@@ -194,7 +194,7 @@ export default {
      * Tìm kiếm
      */
     onSearch() {
-
+      this.$router.push({path: '/search-result', query: { searchValue: this.searchText }})
     },
     /**
      * Chọn item trong mục Cửa hàng
