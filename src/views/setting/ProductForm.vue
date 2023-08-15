@@ -234,7 +234,11 @@ export default {
         this.product = this.modeForm;
         ProductAPI.save(this.product).then(res => {
           if (res && res.data && res.data.Success) {
-            success(this.$t('AddProductSuccessfully'));
+            if (this.modeForm == ModelState.Insert) {
+              success(this.$t('AddProductSuccessfully'));
+            } else {
+              success(this.$t('UpdateProductSuccessfully'));
+            }
             setTimeout(() => {
               this.$router.push('/setting/product')
             }, 1000);

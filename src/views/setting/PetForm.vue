@@ -236,7 +236,11 @@ export default {
         this.pet.State = this.modeForm;
         PetAPI.save(this.pet).then(res => {
           if (res && res.data && res.data.Success) {
-            success(this.$t('AddPetSuccessfully'));
+            if (this.modeForm  == ModelState.Insert) {
+              success(this.$t('AddPetSuccessfully'));
+            } else {
+              success(this.$t('UpdatePetSuccessfully'));
+            }
             setTimeout(() => {
               this.$router.push('/setting/pet')
             }, 1000);
